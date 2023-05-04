@@ -1,5 +1,7 @@
 package sky.pro.friendshiphouse.model;
 
+import sky.pro.friendshiphouse.constant.ReportStatus;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -10,21 +12,21 @@ public class Report {
 
     @Id
     @GeneratedValue
-    private Long reportId;
+    private long reportId;
     private byte[] reportPhoto;
     private String reportMessage;
     private LocalDate reportDate;
-    private String reportStatus; // ожидает проверки; проверен принят; проверен запрошены доработки - сделать ENUM
+    private ReportStatus reportStatus; // ожидает проверки; проверен принят; проверен запрошены доработки (ENUM)
     @ManyToOne
     @JoinColumn(name = "adopter_id")
     private Adopter adopter;
 
 
-    public Long getReportId() {
+    public long getReportId() {
         return reportId;
     }
 
-    public void setReportId(Long reportId) {
+    public void setReportId(long reportId) {
         this.reportId = reportId;
     }
 
@@ -52,18 +54,21 @@ public class Report {
         this.reportDate = reportDate;
     }
 
+    public ReportStatus getReportStatus() {return reportStatus;}
+
+    public void setReportStatus(ReportStatus reportStatus) {this.reportStatus = reportStatus;}
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Report report = (Report) o;
-        return reportId.equals(report.reportId) && Arrays.equals(reportPhoto, report.reportPhoto) && reportMessage.equals(report.reportMessage) && reportDate.equals(report.reportDate);
+        return reportId == report.reportId && Arrays.equals(reportPhoto, report.reportPhoto) && Objects.equals(reportMessage, report.reportMessage) && Objects.equals(reportDate, report.reportDate) && Objects.equals(reportStatus, report.reportStatus) && Objects.equals(adopter, report.adopter);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(reportId, reportMessage, reportDate);
+        int result = Objects.hash(reportId, reportMessage, reportDate, reportStatus, adopter);
         result = 31 * result + Arrays.hashCode(reportPhoto);
         return result;
     }
@@ -75,6 +80,7 @@ public class Report {
                 ", reportPhoto=" + Arrays.toString(reportPhoto) +
                 ", reportMessage='" + reportMessage + '\'' +
                 ", reportDate=" + reportDate +
+                ", reportStatus=" + reportStatus +
                 '}';
     }
 }

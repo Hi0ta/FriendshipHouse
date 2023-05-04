@@ -8,16 +8,16 @@ public class Volunteer {
 
     @Id
     @GeneratedValue
-    private Long volunteerId;
+    private long volunteerId;
     private Integer volunteerChatId;
     private String volunteerName;
     private boolean volunteerStatusFree; //занят; свободен
 
-    public Long getVolunteerId() {
+    public long getVolunteerId() {
         return volunteerId;
     }
 
-    public void setVolunteerId(Long volunteerId) {
+    public void setVolunteerId(long volunteerId) {
         this.volunteerId = volunteerId;
     }
 
@@ -50,12 +50,12 @@ public class Volunteer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Volunteer volunteer = (Volunteer) o;
-        return volunteerStatusFree == volunteer.volunteerStatusFree && volunteerId.equals(volunteer.volunteerId) && volunteerName.equals(volunteer.volunteerName) && volunteerChatId.equals(volunteer.volunteerChatId);
+        return volunteerId == volunteer.volunteerId && volunteerStatusFree == volunteer.volunteerStatusFree && Objects.equals(volunteerChatId, volunteer.volunteerChatId) && Objects.equals(volunteerName, volunteer.volunteerName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(volunteerId, volunteerName, volunteerStatusFree, volunteerChatId);
+        return Objects.hash(volunteerId, volunteerChatId, volunteerName, volunteerStatusFree);
     }
 
     @Override

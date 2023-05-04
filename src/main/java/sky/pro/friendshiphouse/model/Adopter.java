@@ -12,7 +12,7 @@ public class Adopter {
 
     @Id
     @GeneratedValue
-    private Long adopterId;
+    private long adopterId;
     private Integer adopterChatId;
     private String adopterLastname;
     private String adopterFirstname;
@@ -25,13 +25,13 @@ public class Adopter {
     @OneToMany(mappedBy = "adopter")
     private Collection<Report> report;
 
-    //private boolean adopterStatus;  // нужен для черного списка
+    //private boolean adopterStatus;  // возможно понадобится для черного списка
 
-    public Long getAdopterId() {
+    public long getAdopterId() {
         return adopterId;
     }
 
-    public void setAdopterId(Long adopterId) {
+    public void setAdopterId(long adopterId) {
         this.adopterId = adopterId;
     }
 
@@ -96,12 +96,12 @@ public class Adopter {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Adopter adopter = (Adopter) o;
-        return adopterId.equals(adopter.adopterId) && adopterLastname.equals(adopter.adopterLastname) && adopterFirstname.equals(adopter.adopterFirstname) && adopterMiddlename.equals(adopter.adopterMiddlename) && adopterPassport.equals(adopter.adopterPassport) && adopterChatId.equals(adopter.adopterChatId) && adopterTelNumber.equals(adopter.adopterTelNumber) && adopterAddress.equals(adopter.adopterAddress);
+        return adopterId == adopter.adopterId && Objects.equals(adopterChatId, adopter.adopterChatId) && Objects.equals(adopterLastname, adopter.adopterLastname) && Objects.equals(adopterFirstname, adopter.adopterFirstname) && Objects.equals(adopterMiddlename, adopter.adopterMiddlename) && Objects.equals(adopterPassport, adopter.adopterPassport) && Objects.equals(adopterTelNumber, adopter.adopterTelNumber) && Objects.equals(adopterAddress, adopter.adopterAddress) && Objects.equals(animalDog, adopter.animalDog) && Objects.equals(report, adopter.report);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(adopterId, adopterLastname, adopterFirstname, adopterMiddlename, adopterPassport, adopterChatId, adopterTelNumber, adopterAddress);
+        return Objects.hash(adopterId, adopterChatId, adopterLastname, adopterFirstname, adopterMiddlename, adopterPassport, adopterTelNumber, adopterAddress, animalDog, report);
     }
 
     @Override

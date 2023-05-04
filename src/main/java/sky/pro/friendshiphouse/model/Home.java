@@ -9,16 +9,16 @@ public class Home {
 
     @Id
     @GeneratedValue
-    private Long homeId;
+    private long homeId;
     private String homeName;
     private String homeInfo;
     private byte[] homeScheme;
 
-    public Long getHomeId() {
+    public long getHomeId() {
         return homeId;
     }
 
-    public void setHomeId(Long homeId) {
+    public void setHomeId(long homeId) {
         this.homeId = homeId;
     }
 
@@ -51,7 +51,7 @@ public class Home {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Home home = (Home) o;
-        return homeId.equals(home.homeId) && homeName.equals(home.homeName) && homeInfo.equals(home.homeInfo) && Arrays.equals(homeScheme, home.homeScheme);
+        return homeId == home.homeId && Objects.equals(homeName, home.homeName) && Objects.equals(homeInfo, home.homeInfo) && Arrays.equals(homeScheme, home.homeScheme);
     }
 
     @Override

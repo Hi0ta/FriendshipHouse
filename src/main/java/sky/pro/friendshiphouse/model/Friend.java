@@ -11,17 +11,17 @@ public class Friend {
 
     @Id
     @GeneratedValue
-    private Long friendId;
+    private long friendId;
     private Integer friendChatId;
     private String friendName;
     private String friendTelNumber;
 
 
-    public Long getFriendId() {
+    public long getFriendId() {
         return friendId;
     }
 
-    public void setFriendId(Long friendId) {
+    public void setFriendId(long friendId) {
         this.friendId = friendId;
     }
 
@@ -54,12 +54,12 @@ public class Friend {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Friend friend = (Friend) o;
-        return friendId.equals(friend.friendId) && friendName.equals(friend.friendName) && friendChatId.equals(friend.friendChatId) && friendTelNumber.equals(friend.friendTelNumber);
+        return friendId == friend.friendId && Objects.equals(friendChatId, friend.friendChatId) && Objects.equals(friendName, friend.friendName) && Objects.equals(friendTelNumber, friend.friendTelNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(friendId, friendName, friendChatId, friendTelNumber);
+        return Objects.hash(friendId, friendChatId, friendName, friendTelNumber);
     }
 
     @Override

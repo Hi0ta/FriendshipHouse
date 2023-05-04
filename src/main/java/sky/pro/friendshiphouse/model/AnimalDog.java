@@ -1,5 +1,7 @@
 package sky.pro.friendshiphouse.model;
 
+import sky.pro.friendshiphouse.constant.AnimalDogKind;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -8,23 +10,23 @@ public class AnimalDog {
 
     @Id
     @GeneratedValue
-    private Long animalDogId;
+    private long animalDogId;
     private String animalDogName;
     private int animalDogAge;
     private String animalDogBreed;
     private String animalDogInfo;
-    private String animalDogKind;  //щенок; взрослый; с особенностями - сделать ENUM
-    private boolean animalDogStatus; // занят; свободен
+    private AnimalDogKind animalDogKind;  //щенок; взрослый; с особенностями по зрению и передвижению(ENUM)
+    private boolean animalDogStatusFree; // занят; свободен
 
     @OneToOne
     private Adopter adopter;
 
 
-    public Long getAnimalDogId() {
+    public long getAnimalDogId() {
         return animalDogId;
     }
 
-    public void setAnimalDogId(Long animalDogId) {
+    public void setAnimalDogId(long animalDogId) {
         this.animalDogId = animalDogId;
     }
 
@@ -60,20 +62,20 @@ public class AnimalDog {
         this.animalDogInfo = animalDogInfo;
     }
 
-    public String getAnimalDogKind() {
+    public AnimalDogKind getAnimalDogKind() {
         return animalDogKind;
     }
 
-    public void setAnimalDogKind(String animalDogKind) {
+    public void setAnimalDogKind(AnimalDogKind animalDogKind) {
         this.animalDogKind = animalDogKind;
     }
 
-    public boolean isAnimalDogStatus() {
-        return animalDogStatus;
+    public boolean isAnimalDogStatusFree() {
+        return animalDogStatusFree;
     }
 
-    public void setAnimalDogStatus(boolean animalDogStatus) {
-        this.animalDogStatus = animalDogStatus;
+    public void setAnimalDogStatusFree(boolean animalDogStatusFree) {
+        this.animalDogStatusFree = animalDogStatusFree;
     }
 
     @Override
@@ -81,12 +83,12 @@ public class AnimalDog {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnimalDog animalDog = (AnimalDog) o;
-        return animalDogAge == animalDog.animalDogAge && animalDogStatus == animalDog.animalDogStatus && animalDogId.equals(animalDog.animalDogId) && animalDogName.equals(animalDog.animalDogName) && animalDogBreed.equals(animalDog.animalDogBreed) && animalDogInfo.equals(animalDog.animalDogInfo) && animalDogKind.equals(animalDog.animalDogKind);
+        return animalDogId == animalDog.animalDogId && animalDogAge == animalDog.animalDogAge && animalDogStatusFree == animalDog.animalDogStatusFree && Objects.equals(animalDogName, animalDog.animalDogName) && Objects.equals(animalDogBreed, animalDog.animalDogBreed) && Objects.equals(animalDogInfo, animalDog.animalDogInfo) && Objects.equals(animalDogKind, animalDog.animalDogKind) && Objects.equals(adopter, animalDog.adopter);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(animalDogId, animalDogName, animalDogAge, animalDogBreed, animalDogInfo, animalDogKind, animalDogStatus);
+        return Objects.hash(animalDogId, animalDogName, animalDogAge, animalDogBreed, animalDogInfo, animalDogKind, animalDogStatusFree, adopter);
     }
 
     @Override
@@ -98,7 +100,7 @@ public class AnimalDog {
                 ", animalDogBreed='" + animalDogBreed + '\'' +
                 ", animalDogInfo='" + animalDogInfo + '\'' +
                 ", animalDogKind='" + animalDogKind + '\'' +
-                ", animalDogStatus=" + animalDogStatus +
+                ", animalDogStatus=" + animalDogStatusFree +
                 '}';
     }
 }
