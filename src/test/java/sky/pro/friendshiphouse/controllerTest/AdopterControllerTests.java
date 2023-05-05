@@ -53,10 +53,6 @@ public class AdopterControllerTests {
 
     @SpyBean
     private VolunteerService volunteerService;
-
-    @InjectMocks
-    private AdopterController adopterController;
-
     @Test
     public void adopterTest() throws Exception {
         final long adopterId = 1L;

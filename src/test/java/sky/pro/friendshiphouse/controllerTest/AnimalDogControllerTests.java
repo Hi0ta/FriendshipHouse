@@ -55,8 +55,6 @@ public class AnimalDogControllerTests {
     @SpyBean
     private VolunteerService volunteerService;
 
-    @InjectMocks
-    private AnimalDogController animalDogController;
 
     @Test
     public void animalDogTest() throws Exception {

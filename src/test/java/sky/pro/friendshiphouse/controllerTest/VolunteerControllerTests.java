@@ -56,9 +56,6 @@ public class VolunteerControllerTests {
     @SpyBean
     private VolunteerService volunteerService;
 
-    @InjectMocks
-    private VolunteerController volunteerController;
-
     @Test
     public void volunteerTest() throws Exception {
         final Long volunteerId = 1L;

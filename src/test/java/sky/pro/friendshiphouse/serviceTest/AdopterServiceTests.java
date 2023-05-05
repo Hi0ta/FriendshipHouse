@@ -15,9 +15,10 @@ import sky.pro.friendshiphouse.service.AdopterService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AdopterServiceTests {
@@ -97,7 +98,9 @@ public class AdopterServiceTests {
         when(adopterRepository.save(adopter)).thenReturn(adopter);
         Adopter checkedAdopter = adopterService.createAdopter(adopter);
 
+       // assertNotNull(checkedAdopter);
         assertEquals(checkedAdopter, adopter);
+
     }
 
     @Test
@@ -159,7 +162,10 @@ public class AdopterServiceTests {
 
     @Test
     public void checkDeleteAdopter(){
-        // как проверять void ???
+        adopter.setAdopterId(adopterId);
+        when(adopterRepository.findByAdopterId(adopterId)).thenReturn(adopter);
+        adopterService.deleteAdopter(adopterId);
+        verify(adopterRepository, times(1)).deleteById(adopterId);
     }
 
     @Test

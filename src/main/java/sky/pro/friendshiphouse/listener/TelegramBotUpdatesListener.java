@@ -164,7 +164,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                             "тебя приветствует чат бот дома для животных. \uD83D\uDE00 \n" + // Home.getName() + (название дома для животных)
                             "Все что я умею содержится в меню - ознакомься. \n" +
                             "Если чего-то не найдешь всегда сможешь позвать волонтера. \n" +
-                            "(это амый нижний пункт в меню)");
+                            "(это cамый нижний пункт в меню)");
                     telegramBot.execute(welcomeMessage);
                 } else if ("/info".equals(textIncomingMessage)) {
                     SendMessage infoMessage = new SendMessage(chatId, "Здесь должна быть информация о приюте(его назначение и суть)");

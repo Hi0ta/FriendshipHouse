@@ -27,12 +27,12 @@ public class AnimalDogController {
     }
 
     @ExceptionHandler(value = ObjectAlreadyExistsException.class)
-    public ResponseEntity<String> ObjectAlreadyExistsHandler(ObjectAlreadyExistsException e) {
+    public ResponseEntity<String> objectAlreadyExistsHandler(ObjectAlreadyExistsException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     @ExceptionHandler(value = ObjectAbsenceException.class)
-    public ResponseEntity<String> ObjectAbsenceHandler(ObjectAbsenceException e) {
+    public ResponseEntity<String> objectAbsenceHandler(ObjectAbsenceException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 

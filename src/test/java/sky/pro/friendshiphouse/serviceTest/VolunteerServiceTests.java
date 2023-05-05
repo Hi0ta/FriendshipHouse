@@ -18,7 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class VolunteerServiceTests {
@@ -154,7 +154,10 @@ public class VolunteerServiceTests {
 
     @Test
     public void checkDeleteVolunteer() {
-// как проверять void ???
+        volunteer.setVolunteerId(volunteerId);
+        when(volunteerRepository.findByVolunteerId(volunteerId)).thenReturn(volunteer);
+        volunteerService.deleteVolunteer(volunteerId);
+        verify(volunteerRepository, times(1)).deleteById(volunteerId);
     }
 
 
