@@ -16,7 +16,6 @@ import sky.pro.friendshiphouse.service.AdopterService;
 
 import java.util.Collection;
 
-
 @RestController
 @RequestMapping("/adopter")
 public class AdopterController {
@@ -55,6 +54,22 @@ public class AdopterController {
     @GetMapping() // GET http://localhost:8080/adopter/
     public ResponseEntity<Collection<Adopter>> getAllAdopter() {
         return ResponseEntity.ok(adopterService.getAllAdopter());
+    }
+
+    @Operation(
+            tags = "Усыновитель",
+            summary = "Список всех усыновителей из БД с учетом статуса blackList",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "список всех усыновителей с учетом статуса blackList"
+                    )
+            }
+    )
+    @GetMapping("blackList") // GET http://localhost:8080/adopter/blackList
+    public ResponseEntity<Collection<Adopter>> getAllAdopterByStatusBlackList(@Parameter(description = "true=заблокирован(не прошел испытательный срок) false=не заблокирован(нет в черном списке)", name = "statusBlackList")
+                                                                              @RequestParam("statusBlackList") boolean statusBlackList) {
+        return ResponseEntity.ok(adopterService.getAllAdopterByStatusBlackList(statusBlackList));
     }
 
     @Operation(

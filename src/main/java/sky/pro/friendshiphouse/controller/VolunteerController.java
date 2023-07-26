@@ -99,7 +99,7 @@ public class VolunteerController {
             tags = "Волонтер",
             summary = "Внесение изменений в БД по волонтеру",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "необходимо правильно заполнить поле <b>volunteerId</b> (если указать неверно олонтер не будет найден в БД) <br> поле <b>volunteerChatId</b> должно состоять из 10 цифр"
+                    description = "необходимо правильно заполнить поле <b>volunteerId</b> (если указать неверно волонтер не будет найден в БД) <br> поле <b>volunteerChatId</b> должно состоять из 10 цифр"
             ),
             responses = {
                     @ApiResponse(

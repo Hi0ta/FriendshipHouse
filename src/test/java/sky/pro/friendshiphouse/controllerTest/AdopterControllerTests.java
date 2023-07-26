@@ -3,7 +3,6 @@ package sky.pro.friendshiphouse.controllerTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -11,7 +10,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import sky.pro.friendshiphouse.controller.AdopterController;
 import sky.pro.friendshiphouse.model.Adopter;
 import sky.pro.friendshiphouse.repository.AdopterRepository;
 import sky.pro.friendshiphouse.repository.AnimalDogRepository;
@@ -56,7 +54,7 @@ public class AdopterControllerTests {
     @Test
     public void adopterTest() throws Exception {
         final long adopterId = 1L;
-        final Integer adopterChatId = 1234567890;
+        final Long adopterChatId = 1234567890L;
         final String adopterLastname = "Van";
         final String adopterFirstname = "Van";
         final String adopterMiddlename = "Van";
@@ -79,7 +77,7 @@ public class AdopterControllerTests {
         adopter.setAdopterChatId(adopterChatId);
         adopter.setAdopterLastname(adopterLastname);
         adopter.setAdopterFirstname(adopterFirstname);
-        adopter.setAdopterMiddlename(adopterMiddlename);
+        adopter.setAdopterMiddleName(adopterMiddlename);
         adopter.setAdopterPassport(adopterPassport);
         adopter.setAdopterTelNumber(adopterTelNumber);
         adopter.setAdopterAddress(adopterAddress);
@@ -145,7 +143,7 @@ public class AdopterControllerTests {
     @Test
     public void adopterBadRequestTest() throws Exception {
         final long adopterId = 1L;
-        final Integer adopterChatId = 1234567890;
+        final Long adopterChatId = 1234567890L;
         final String adopterLastname = "Van";
         final String adopterFirstname = "Van";
         final String adopterMiddlename = "Van";
@@ -168,7 +166,7 @@ public class AdopterControllerTests {
         adopter.setAdopterChatId(adopterChatId);
         adopter.setAdopterLastname(adopterLastname);
         adopter.setAdopterFirstname(adopterFirstname);
-        adopter.setAdopterMiddlename(adopterMiddlename);
+        adopter.setAdopterMiddleName(adopterMiddlename);
         adopter.setAdopterPassport(adopterPassport);
         adopter.setAdopterTelNumber(adopterTelNumber);
         adopter.setAdopterAddress(adopterAddress);

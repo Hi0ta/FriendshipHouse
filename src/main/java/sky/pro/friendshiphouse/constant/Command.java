@@ -1,7 +1,7 @@
 package sky.pro.friendshiphouse.constant;
 
 public enum Command {
-    ADDRESS("/address","Часы работы, адресс, схема проезда", "address");
+    ADDRESS("/address","Часы работы, адрес, схема проезда", "address");
 
     private final String title;
     private final String description;
