@@ -32,7 +32,7 @@ public class VolunteerServiceTests {
     private Volunteer volunteer = new Volunteer();
 
     final Long volunteerId = 1L;
-    final Integer volunteerChatId = 1234567890;
+    final Long volunteerChatId = 1234567890L;
     final String volunteerName = "Van";
     final boolean volunteerStatusFree = true;
 
@@ -86,7 +86,7 @@ public class VolunteerServiceTests {
 
     @Test
     public void checkExceptionWhenCreateVolunteer() {
-        volunteer.setVolunteerChatId(123);
+        volunteer.setVolunteerChatId(123L);
         assertThrows(FormatNotComplianceException.class, () -> volunteerService.createVolunteer(volunteer));
     }
 
@@ -127,7 +127,7 @@ public class VolunteerServiceTests {
     @Test
     public void checkExceptionWhenEditVolunteer2(){
         volunteer.setVolunteerId(volunteerId);
-        volunteer.setVolunteerChatId(123);
+        volunteer.setVolunteerChatId(123L);
         when(volunteerRepository.findByVolunteerId(volunteerId)).thenReturn(volunteer);
         assertThrows(FormatNotComplianceException.class, () -> volunteerService.editVolunteer(volunteer));
     }

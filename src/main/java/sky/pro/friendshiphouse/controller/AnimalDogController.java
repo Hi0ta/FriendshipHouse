@@ -53,6 +53,22 @@ public class AnimalDogController {
 
     @Operation(
             tags = "Собака",
+            summary = "Список всех собак из БД с учетом статуса",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "список всех собак с учетом статуса"
+                    )
+            }
+    )
+    @GetMapping("statusFree") // GET http://localhost:8080/dog/statusFree
+    public ResponseEntity<Collection<AnimalDog>> getAnimalDogByAnimalDogStatusFree(@Parameter(description = "true=свободна / false=занята", name = "animalDogStatusFree")
+                                                                                   @RequestParam("animalDogStatusFree") boolean animalDogStatusFree) {
+        return ResponseEntity.ok(animalDogService.getAnimalDogByAnimalDogStatusFree(animalDogStatusFree));
+    }
+
+    @Operation(
+            tags = "Собака",
             summary = "Поиск собаки в БД по ее animalDogId",
             responses = {
                     @ApiResponse(

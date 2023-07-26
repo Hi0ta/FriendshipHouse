@@ -59,7 +59,7 @@ public class VolunteerControllerTests {
     @Test
     public void volunteerTest() throws Exception {
         final Long volunteerId = 1L;
-        final Integer volunteerChatId = 1234567890;
+        final Long volunteerChatId = 1234567890L;
         final String volunteerName = "Van";
         final boolean volunteerStatusFree = true;
 
@@ -140,7 +140,7 @@ public class VolunteerControllerTests {
 
         Volunteer volunteer = new Volunteer();
         volunteer.setVolunteerId(volunteerId);
-        volunteer.setVolunteerChatId(volunteerChatId);
+        volunteer.setVolunteerChatId(Long.valueOf(volunteerChatId));
         volunteer.setVolunteerName(volunteerName);
         volunteer.setVolunteerStatusFree(volunteerStatusFree);
 

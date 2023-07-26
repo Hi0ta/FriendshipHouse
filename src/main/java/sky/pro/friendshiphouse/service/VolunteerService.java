@@ -1,5 +1,6 @@
 package sky.pro.friendshiphouse.service;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,13 +14,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+@RequiredArgsConstructor
 @Service
 public class VolunteerService {
     private final VolunteerRepository volunteerRepository;
     private final Logger logger = LoggerFactory.getLogger(VolunteerService.class);
-    public VolunteerService(VolunteerRepository volunteerRepository) {
-        this.volunteerRepository = volunteerRepository;
-    }
 
     /**
      * Позволяет вывести список всех волонтеров из БД
@@ -58,8 +58,8 @@ public class VolunteerService {
         if (newVolunteer.getVolunteerChatId().toString().length() != 10) {
             throw new FormatNotComplianceException("Поле volunteerChatId должно состоять из 10 цифр");
         }
-        Integer newVolunteerChatId = newVolunteer.getVolunteerChatId();
-        List<Integer> volunteerChatIds = volunteerRepository.findAll().stream().map(Volunteer::getVolunteerChatId).collect(Collectors.toList());
+        Long newVolunteerChatId = newVolunteer.getVolunteerChatId();
+        List<Long> volunteerChatIds = volunteerRepository.findAll().stream().map(Volunteer::getVolunteerChatId).collect(Collectors.toList());
         volunteerChatIds.forEach(volunteerChatId -> {
             if (newVolunteerChatId.equals(volunteerChatId)) {
                 throw new ObjectAlreadyExistsException("Волонтер с таким volunteerChatId уже существует в БД");
@@ -71,7 +71,7 @@ public class VolunteerService {
     /**
      * Позволяет изменить данные по волонтеру, если правильно указано поле volunteerId
      * <br> Использован метод репозитория {@link org.springframework.data.jpa.repository.JpaRepository#save(Object)}
-     * <br> Проводится проверка поля аdopterChatId - оно должно состоять из 10ти цифр
+     * <br> Проводится проверка поля adopterChatId - оно должно состоять из 10ти цифр
      *
      * @param volunteer (важно правильно заполнить поле <b>volunteerId</b>)
      */
@@ -89,9 +89,9 @@ public class VolunteerService {
     /**
      * Позволяет сменить статус волонтеру (занят/свободен)
      *
-     * @param volunteerId идентификатор волонтера (<b>не</b> может быть <b>null</b>)
-     * @param volunteerStatusFree      (true=свободен/ false=занят)
-     * @return данные по волонтеру c измененным статусом
+     * @param volunteerId         идентификатор волонтера (<b>не</b> может быть <b>null</b>)
+     * @param volunteerStatusFree (true=свободен/ false=занят)
+     * @return данные по волонтеру с измененным статусом
      */
     public Volunteer editVolunteerStatus(long volunteerId, boolean volunteerStatusFree) {
         logger.info("launching the editVolunteerStatus method with volunteerId: {}", volunteerId);
@@ -104,7 +104,7 @@ public class VolunteerService {
     }
 
     /**
-     * Позволяет удалить волонтерa из БД
+     * Позволяет удалить волонтера из БД
      * <br> Использован метод репозитория {@link org.springframework.data.jpa.repository.JpaRepository#deleteById(Object)}
      *
      * @param volunteerId идентификатор волонтера (<b>не</b> может быть <b>null</b>)
@@ -115,5 +115,20 @@ public class VolunteerService {
             throw new ObjectAbsenceException("Волонтер с таким volunteerId не найден в БД");
         }
         volunteerRepository.deleteById(volunteerId);
+    }
+
+    /**
+     * Метод выбирает одного волонтера из списка свободных волонтеров (если нет свободных адресует запрос администратору)
+     *
+     * @return свободного волонтера
+     */
+    public Volunteer callVolunteer() {
+        List<Volunteer> volunteersFree = volunteerRepository.getVolunteerByVolunteerStatusFreeIsTrue();
+        if (!volunteersFree.isEmpty()) {
+            return volunteersFree.stream().findFirst().get();
+//TODO как из списка выбрать 1 волонтера (может рандомно, или просто брать всегда первого из списка)?
+        }
+        List<Volunteer> volunteers = volunteerRepository.getVolunteerByVolunteerStatusFreeIsFalse();
+        return volunteers.stream().findFirst().get(); //первый волонтер из БД - это администратор и у него всегда статус false, если нет свободных волонтеров запрос попадет к нему и самостоятельно решит что с этим сделать
     }
 }

@@ -1,5 +1,6 @@
 package sky.pro.friendshiphouse.service;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+@RequiredArgsConstructor
 @Service
 public class AnimalDogService {
     private final AnimalDogRepository animalDogRepository;
     private final Logger logger = LoggerFactory.getLogger(AnimalDogService.class);
-    public AnimalDogService(AnimalDogRepository animalDogRepository) {
-        this.animalDogRepository = animalDogRepository;
-    }
+
 
     /**
      * Позволяет вывести список всех собак из БД
@@ -28,6 +29,17 @@ public class AnimalDogService {
     public Collection<AnimalDog> getAllAnimalDog() {
         logger.info("launching the getAllAnimalDog method");
         return animalDogRepository.findAll();
+    }
+
+    /**
+     * Позволяет вывести список всех собак из БД с учетом статуса
+     *
+     * @param statusFree (true=свободна/ false=занята)
+     * @return список всех собак из БД с учетом статуса
+     */
+    public Collection<AnimalDog> getAnimalDogByAnimalDogStatusFree(boolean statusFree) {
+        logger.info("launching the findAnimalDogByAnimalDogStatusFree method");
+        return animalDogRepository.getAnimalDogByAnimalDogStatusFree(statusFree);
     }
 
     /**
@@ -81,9 +93,9 @@ public class AnimalDogService {
     /**
      * Позволяет сменить статус собаке (занят/свободен)
      *
-     * @param animalDogId идентификатор собаки (<b>не</b> может быть <b>null</b>)
-     * @param animalDogStatusFree      (true=свободен/ false=занят)
-     * @return данные по собаке c измененным статусом
+     * @param animalDogId         идентификатор собаки (<b>не</b> может быть <b>null</b>)
+     * @param animalDogStatusFree (true=свободен/ false=занят)
+     * @return данные по собаке с измененным статусом
      */
     public AnimalDog editAnimalDogStatus(long animalDogId, boolean animalDogStatusFree) {
         logger.info("launching the editAnimalDogStatus method with animalDogId: {}", animalDogId);

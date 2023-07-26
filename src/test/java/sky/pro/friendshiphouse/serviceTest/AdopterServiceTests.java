@@ -15,7 +15,6 @@ import sky.pro.friendshiphouse.service.AdopterService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -32,7 +31,7 @@ public class AdopterServiceTests {
     private Adopter adopter = new Adopter();
 
     final long adopterId = 1L;
-    final Integer adopterChatId = 1234567890;
+    final Long adopterChatId = 1234567890L;
     final String adopterLastname = "Van";
     final String adopterFirstname = "Van";
     final String adopterMiddlename = "Van";
@@ -46,7 +45,7 @@ public class AdopterServiceTests {
         adopter.setAdopterChatId(adopterChatId);
         adopter.setAdopterLastname(adopterLastname);
         adopter.setAdopterFirstname(adopterFirstname);
-        adopter.setAdopterMiddlename(adopterMiddlename);
+        adopter.setAdopterMiddleName(adopterMiddlename);
         adopter.setAdopterPassport(adopterPassport);
         adopter.setAdopterTelNumber(adopterTelNumber);
         adopter.setAdopterAddress(adopterAddress);
@@ -68,7 +67,7 @@ public class AdopterServiceTests {
         adopter.setAdopterChatId(adopterChatId);
         adopter.setAdopterLastname(adopterLastname);
         adopter.setAdopterFirstname(adopterFirstname);
-        adopter.setAdopterMiddlename(adopterMiddlename);
+        adopter.setAdopterMiddleName(adopterMiddlename);
         adopter.setAdopterPassport(adopterPassport);
         adopter.setAdopterTelNumber(adopterTelNumber);
         adopter.setAdopterAddress(adopterAddress);
@@ -90,7 +89,7 @@ public class AdopterServiceTests {
         adopter.setAdopterChatId(adopterChatId);
         adopter.setAdopterLastname(adopterLastname);
         adopter.setAdopterFirstname(adopterFirstname);
-        adopter.setAdopterMiddlename(adopterMiddlename);
+        adopter.setAdopterMiddleName(adopterMiddlename);
         adopter.setAdopterPassport(adopterPassport);
         adopter.setAdopterTelNumber(adopterTelNumber);
         adopter.setAdopterAddress(adopterAddress);
@@ -105,7 +104,7 @@ public class AdopterServiceTests {
 
     @Test
     public void checkExceptionWhenCreateAdopter(){
-        adopter.setAdopterChatId(123);
+        adopter.setAdopterChatId(123L);
         assertThrows(FormatNotComplianceException.class, () -> adopterService.createAdopter(adopter));
     }
 
@@ -115,7 +114,7 @@ public class AdopterServiceTests {
         adopter.setAdopterChatId(adopterChatId);
         adopter.setAdopterLastname(adopterLastname);
         adopter.setAdopterFirstname(adopterFirstname);
-        adopter.setAdopterMiddlename(adopterMiddlename);
+        adopter.setAdopterMiddleName(adopterMiddlename);
         adopter.setAdopterPassport(adopterPassport);
         adopter.setAdopterTelNumber(adopterTelNumber);
         adopter.setAdopterAddress(adopterAddress);
@@ -134,7 +133,7 @@ public class AdopterServiceTests {
         adopter.setAdopterChatId(adopterChatId);
         adopter.setAdopterLastname(adopterLastname);
         adopter.setAdopterFirstname(adopterFirstname);
-        adopter.setAdopterMiddlename(adopterMiddlename);
+        adopter.setAdopterMiddleName(adopterMiddlename);
         adopter.setAdopterPassport(adopterPassport);
         adopter.setAdopterTelNumber(adopterTelNumber);
         adopter.setAdopterAddress(adopterAddress);
@@ -155,7 +154,7 @@ public class AdopterServiceTests {
     @Test
     public void checkExceptionWhenEditAdopter2(){
         adopter.setAdopterId(adopterId);
-        adopter.setAdopterChatId(123);
+        adopter.setAdopterChatId(123L);
         when(adopterRepository.findByAdopterId(adopterId)).thenReturn(adopter);
         assertThrows(FormatNotComplianceException.class, () -> adopterService.editAdopter(adopter));
     }
