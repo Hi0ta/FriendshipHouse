@@ -47,10 +47,10 @@ public class AdopterController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "список всех усыновителей"
-                    )
-            }
-    )
+                            description = "список всех усыновителей",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Adopter[].class)))})
     @GetMapping() // GET http://localhost:8080/adopter/
     public ResponseEntity<Collection<Adopter>> getAllAdopter() {
         return ResponseEntity.ok(adopterService.getAllAdopter());
@@ -62,10 +62,10 @@ public class AdopterController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "список всех усыновителей с учетом статуса blackList"
-                    )
-            }
-    )
+                            description = "список всех усыновителей с учетом статуса blackList",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Adopter[].class)))})
     @GetMapping("blackList") // GET http://localhost:8080/adopter/blackList
     public ResponseEntity<Collection<Adopter>> getAllAdopterByStatusBlackList(@Parameter(description = "true=заблокирован(не прошел испытательный срок) false=не заблокирован(нет в черном списке)", name = "statusBlackList")
                                                                               @RequestParam("statusBlackList") boolean statusBlackList) {
@@ -78,10 +78,10 @@ public class AdopterController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "усыновитель найден"
-                    )
-            }
-    )
+                            description = "усыновитель найден",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Adopter.class)))})
     @GetMapping("{adopterId}") // GET http://localhost:8080/adopter/adopterId
     public ResponseEntity<Adopter> getAdopterById(@Parameter(name = "adopterId", description = "обязательно правильно заполнить <b>adopterId</b> <br/>(если указать неверно усыновитель не будет найден в БД)")
                                                   @PathVariable long adopterId) {
@@ -100,11 +100,7 @@ public class AdopterController {
                             description = "усыновитель добавлен в БД",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Adopter[].class)
-                            )
-                    )
-            }
-    )
+                                    schema = @Schema(implementation = Adopter.class)))})
     @PostMapping()   //  POST http://localhost:8080/adopter/
     public ResponseEntity<Adopter> createAdopter(@RequestBody Adopter newAdopter) {
         adopterService.createAdopter(newAdopter);
@@ -123,10 +119,7 @@ public class AdopterController {
                             description = "данные по усыновителю изменены",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Adopter[].class)
-                            )
-                    )
-            })
+                                    schema = @Schema(implementation = Adopter.class)))})
     @PutMapping()    //  PUT http://localhost:8080/adopter/
     public ResponseEntity<Adopter> editAdopter(@RequestBody Adopter adopter) {
         adopterService.editAdopter(adopter);
@@ -139,9 +132,7 @@ public class AdopterController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "усыновитель удален из БД"
-                    )
-            })
+                            description = "усыновитель удален из БД")})
     @DeleteMapping("{adopterId}")  // DELETE http://localhost:8080/adopter/adopterId
     public ResponseEntity deleteAdopter(@Parameter(name = "adopterId", description = "обязательно правильно заполнить <b>adopterId</b> <br/>(если указать неверно усыновитель не будет найден в БД)")
                                         @PathVariable long adopterId) {

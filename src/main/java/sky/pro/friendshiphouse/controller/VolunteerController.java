@@ -46,10 +46,10 @@ public class VolunteerController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "список всех волонтеров"
-                    )
-            }
-    )
+                            description = "список всех волонтеров",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Volunteer[].class)))})
     @GetMapping() // GET http://localhost:8080/volunteer/
     public ResponseEntity<Collection<Volunteer>> getAllVolunteer() {
         return ResponseEntity.ok(volunteerService.getAllVolunteer());
@@ -61,10 +61,10 @@ public class VolunteerController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "волонтер найден"
-                    )
-            }
-    )
+                            description = "волонтер найден",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Volunteer.class)))})
     @GetMapping("{volunteerId}") // GET http://localhost:8080/volunteer/volunteerId
     public ResponseEntity<Volunteer> getVolunteerById(@Parameter(name = "volunteerId", description = "обязательно правильно заполнить <b>volunteerId</b> <br/>(если указать неверно волонтер не будет найден в БД)")
                                                       @PathVariable long volunteerId) {
@@ -76,19 +76,14 @@ public class VolunteerController {
             tags = "Волонтер",
             summary = "Добавление волонтера в БД",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "обязательно заполнить все поля кроме <b>volunteerId</b> (проставляется автоматически БД) <br> поле <b>volunteerChatId</b> должно состоять из 10 цифр"
-            ),
+                    description = "обязательно заполнить все поля кроме <b>volunteerId</b> (проставляется автоматически БД) <br> поле <b>volunteerChatId</b> должно состоять из 10 цифр"),
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "волонтер добавлен в БД",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Volunteer[].class)
-                            )
-                    )
-            }
-    )
+                                    schema = @Schema(implementation = Volunteer.class)))})
     @PostMapping() //  POST http://localhost:8080/volunteer/
     public ResponseEntity<Volunteer> createVolunteer(@RequestBody Volunteer newVolunteer) {
         volunteerService.createVolunteer(newVolunteer);
@@ -99,18 +94,14 @@ public class VolunteerController {
             tags = "Волонтер",
             summary = "Внесение изменений в БД по волонтеру",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "необходимо правильно заполнить поле <b>volunteerId</b> (если указать неверно волонтер не будет найден в БД) <br> поле <b>volunteerChatId</b> должно состоять из 10 цифр"
-            ),
+                    description = "необходимо правильно заполнить поле <b>volunteerId</b> (если указать неверно волонтер не будет найден в БД) <br> поле <b>volunteerChatId</b> должно состоять из 10 цифр"),
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "данные по волонтеру изменены",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Volunteer[].class)
-                            )
-                    )
-            })
+                                    schema = @Schema(implementation = Volunteer.class)))})
     @PutMapping()   //  PUT http://localhost:8080/volunteer/
     public ResponseEntity<Volunteer> editVolunteer(@RequestBody Volunteer volunteer) {
         volunteerService.editVolunteer(volunteer);
@@ -123,9 +114,10 @@ public class VolunteerController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "статус волонтера успешно изменен"
-                    )
-            })
+                            description = "статус волонтера успешно изменен",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Volunteer.class)))})
     @PutMapping("change-status/{volunteerId}")  // PUT http://localhost:8080/volunteer/change-status/volunteerId
     public ResponseEntity<Volunteer> editVolunteerStatus(@Parameter(name = "volunteerId", description = "обязательно правильно заполнить поле <b>volunteerId</b> (если указать неверно волонтер не будет найден в БД)")
                                                          @PathVariable long volunteerId,
@@ -141,9 +133,7 @@ public class VolunteerController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "волонтер удален из БД"
-                    )
-            })
+                            description = "волонтер удален из БД")})
     @DeleteMapping("{volunteerId}")  // DELETE http://localhost:8080/volunteer/volunteerId
     public ResponseEntity deleteVolunteer(@Parameter(name = "volunteerId", description = "обязательно правильно заполнить <b>volunteerId</b> <br/>(если указать неверно волонтер не будет найден в БД)")
                                           @PathVariable long volunteerId) {

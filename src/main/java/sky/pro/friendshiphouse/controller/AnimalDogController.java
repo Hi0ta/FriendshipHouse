@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sky.pro.friendshiphouse.exception.ObjectAbsenceException;
 import sky.pro.friendshiphouse.exception.ObjectAlreadyExistsException;
+import sky.pro.friendshiphouse.model.AnimalCat;
 import sky.pro.friendshiphouse.model.AnimalDog;
 import sky.pro.friendshiphouse.service.AnimalDogService;
 
@@ -42,10 +43,10 @@ public class AnimalDogController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "список всех собак"
-                    )
-            }
-    )
+                            description = "список всех собак",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = AnimalDog[].class)))})
     @GetMapping() // GET http://localhost:8080/dog/
     public ResponseEntity<Collection<AnimalDog>> getAllAnimalDog() {
         return ResponseEntity.ok(animalDogService.getAllAnimalDog());
@@ -57,10 +58,10 @@ public class AnimalDogController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "список всех собак с учетом статуса"
-                    )
-            }
-    )
+                            description = "список всех собак с учетом статуса",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = AnimalDog[].class)))})
     @GetMapping("statusFree") // GET http://localhost:8080/dog/statusFree
     public ResponseEntity<Collection<AnimalDog>> getAnimalDogByAnimalDogStatusFree(@Parameter(description = "true=свободна / false=занята", name = "animalDogStatusFree")
                                                                                    @RequestParam("animalDogStatusFree") boolean animalDogStatusFree) {
@@ -73,10 +74,10 @@ public class AnimalDogController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "собака найдена"
-                    )
-            }
-    )
+                            description = "собака найдена",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = AnimalDog.class)))})
     @GetMapping("{animalDogId}") // GET http://localhost:8080/dog/animalDogId
     public ResponseEntity<AnimalDog> getAnimalDogById(@Parameter(name = "animalDogId", description = "обязательно правильно заполнить <b>номер animalDogId</b> <br/>(если указать неверно собака не будет найдена в БД)")
                                                       @PathVariable long animalDogId) {
@@ -95,11 +96,7 @@ public class AnimalDogController {
                             description = "собакa добавленa в БД",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = AnimalDog[].class)
-                            )
-                    )
-            }
-    )
+                                    schema = @Schema(implementation = AnimalDog.class)))})
     @PostMapping() //  POST http://localhost:8080/dog/
     public ResponseEntity<AnimalDog> createAnimalDog(@RequestBody AnimalDog animalDog) {
         animalDogService.createAnimalDog(animalDog);
@@ -118,10 +115,7 @@ public class AnimalDogController {
                             description = "данные по собаке изменены",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = AnimalDog[].class)
-                            )
-                    )
-            })
+                                    schema = @Schema(implementation = AnimalDog.class)))})
     @PutMapping()   //  PUT http://localhost:8080/dog/
     public ResponseEntity<AnimalDog> editAnimalDog(@RequestBody AnimalDog animalDog) {
         animalDogService.editAnimalDog(animalDog);
@@ -134,9 +128,10 @@ public class AnimalDogController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "статус собаки успешно изменен"
-                    )
-            })
+                            description = "статус собаки успешно изменен",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = AnimalDog.class)))})
     @PutMapping("change-status/{animalDogId}")  // PUT http://localhost:8080/dog/change-status/animalDogId
     public ResponseEntity<AnimalDog> editAnimalDogStatus(@Parameter(name = "animalDogId", description = "обязательно правильно заполнить поле <b>animalDogId</b> (если указать неверно собака не будет найдена в БД и изменения вносить будет некуда)")
                                                          @PathVariable long animalDogId,
@@ -152,9 +147,7 @@ public class AnimalDogController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "собака удалена из БД"
-                    )
-            })
+                            description = "собака удалена из БД")})
     @DeleteMapping("{animalDogId}")  // DELETE http://localhost:8080/dog/animalDogId
     public ResponseEntity deleteAnimalDog(@Parameter(name = "animalDogId", description = "обязательно правильно заполнить <b>animalDogId</b> <br/>(если указать неверно собака не будет найдена в БД)")
                                           @PathVariable long animalDogId) {
