@@ -1,17 +1,14 @@
 package sky.pro.friendshiphouse.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import sky.pro.friendshiphouse.constant.AnimalDogKind;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-//@Table(name = "animal_dog")
+@Getter
+@Setter
 public class AnimalDog {
     @Id
     @GeneratedValue
@@ -25,4 +22,43 @@ public class AnimalDog {
     @OneToOne
     @JoinColumn(name = "adopter_id")
     private Adopter adopter;
+
+    public AnimalDog() {}
+    public AnimalDog(long animalDogId,
+                     String animalDogName,
+                     int animalDogAge,
+                     String animalDogBreed,
+                     String animalDogInfo,
+                     AnimalDogKind animalDogKind) {
+        this.animalDogId = animalDogId;
+        this.animalDogName = animalDogName;
+        this.animalDogAge = animalDogAge;
+        this.animalDogBreed = animalDogBreed;
+        this.animalDogInfo = animalDogInfo;
+        this.animalDogKind = animalDogKind;
+        this.animalDogStatusFree = true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnimalDog animalDog = (AnimalDog) o;
+        return animalDogId == animalDog.animalDogId && animalDogAge == animalDog.animalDogAge && animalDogName.equals(animalDog.animalDogName) && animalDogBreed.equals(animalDog.animalDogBreed) && animalDogInfo.equals(animalDog.animalDogInfo);
+    }
+    @Override
+    public int hashCode() {return Objects.hash(animalDogId, animalDogName, animalDogAge, animalDogBreed, animalDogInfo);}
+
+    @Override
+    public String toString() {
+        return "Собака " +
+                "Id: " + animalDogId +
+                ", Кличка: " + animalDogName +
+                ", Возраст: " + animalDogAge +
+                ", Порода: " + animalDogBreed +
+                ", Дополнительная информация: " + animalDogInfo +
+                ", Особенности: " + animalDogKind.getDescription() +
+                ", Статус: " + animalDogStatusFree +
+                ", Усыновитель Id: " + adopter.getAdopterId();
+    }
 }

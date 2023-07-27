@@ -17,8 +17,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static sky.pro.friendshiphouse.constant.ReportStatus.AWAITING_VERIFICATION;
-
 @RequiredArgsConstructor
 @Service
 public class AdopterService {

@@ -10,8 +10,9 @@ import java.util.Collection;
 
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Long> {
-    Report findByReportId(Long reportId);
-    Collection<Report> findByAdopter_AdopterId(Long adopterId);
+    Report getByReportId(Long reportId);
+    Report getReportByAdopter_AdopterIdAndReportDate(Long adopterId, LocalDate date);
+    Report getReportByAdopter_AdopterChatIdAndReportDate(Long adopterChatId, LocalDate date);
+    Collection<Report> findReportByAdopter_AdopterId(Long adopterId);
     Collection<Report> findReportByReportDateAndReportStatus(LocalDate reportDate, ReportStatus reportStatus);
-    Report findByAdopter_AdopterChatIdAndReportDate(Long adopterChatId, LocalDate date);
 }

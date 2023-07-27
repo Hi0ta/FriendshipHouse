@@ -85,7 +85,6 @@ public class VolunteerService {
         return volunteerRepository.save(volunteer);
     }
 
-
     /**
      * Позволяет сменить статус волонтеру (занят/свободен)
      *

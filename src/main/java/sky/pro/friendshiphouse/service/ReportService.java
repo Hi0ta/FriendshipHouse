@@ -6,11 +6,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import sky.pro.friendshiphouse.constant.ReportStatus;
 import sky.pro.friendshiphouse.exception.ObjectAbsenceException;
+import sky.pro.friendshiphouse.model.Adopter;
 import sky.pro.friendshiphouse.model.Report;
 import sky.pro.friendshiphouse.repository.ReportRepository;
 
 import java.time.LocalDate;
 import java.util.Collection;
+
+import static sky.pro.friendshiphouse.constant.ReportStatus.AWAITING_VERIFICATION;
 
 
 @RequiredArgsConstructor
@@ -25,9 +28,20 @@ public class ReportService {
     /**
      * Позволяет добавить отчет в БД
      */
-    public void createReport(Report newReport) {//TODO добавить проверку - при повторном отчете за день менять текст в уже существующем а не создавать еще один!!!
+    public void createReport(String reportMessage, Adopter adopter) {
         logger.info("launching the createReport method");
-        reportRepository.save(newReport);
+        Long adopterId = adopter.getAdopterId();
+        if(reportRepository.getReportByAdopter_AdopterIdAndReportDate(adopterId,LocalDate.now()) == null) {
+            Report newReport = new Report();
+            newReport.setReportStatus(AWAITING_VERIFICATION);
+            newReport.setReportDate(LocalDate.now());
+            newReport.setReportMessage(reportMessage);
+            newReport.setAdopter(adopter);
+            reportRepository.save(newReport);
+        }
+        Report changeReport = reportRepository.getReportByAdopter_AdopterIdAndReportDate(adopterId, LocalDate.now());
+        changeReport.setReportMessage(reportMessage);
+        reportRepository.save(changeReport);
     }
 
     /**
@@ -47,8 +61,8 @@ public class ReportService {
      * @return список отчетов по выбранному усыновителю.
      */
     public Collection<Report> getReportsByAdopterId(Long adopterId){
-        logger.info("launching the getAllReportPerDay method");
-        return reportRepository.findByAdopter_AdopterId(adopterId);
+        logger.info("launching the getAllReportPerDay method with adopterId: {}", adopterId);
+        return reportRepository.findReportByAdopter_AdopterId(adopterId);
     }
 
     /**
@@ -60,7 +74,7 @@ public class ReportService {
      */
     public Report editReportStatus(Long reportId, ReportStatus reportStatus) {
         logger.info("launching the editReportStatus method with reportId: {}", reportId);
-        Report changeReport = reportRepository.findByReportId(reportId);
+        Report changeReport = reportRepository.getByReportId(reportId);
         if (changeReport == null) {
             throw new ObjectAbsenceException("Отчет с таким reportId не найден в БД");
         }
@@ -69,53 +83,19 @@ public class ReportService {
     }
 
     /**
-     * Позволяет сменить reportMessage отчету
-     *
-     * @param reportId         идентификатор отчета (<b>не</b> может быть <b>null</b>)
-     * @param newReportMessage новый reportMessage
-     * @return данные по отчету c измененным reportMessage
-     */
-    public Report editReportMessage(Long reportId, String newReportMessage) {
-        logger.info("launching the editReportMessage method with reportId: {}", reportId);
-        Report changeReport = reportRepository.findByReportId(reportId);
-        if (changeReport == null) {
-            throw new ObjectAbsenceException("Отчет с таким reportId не найден в БД");
-        }
-        changeReport.setReportMessage(newReportMessage);
-        return reportRepository.save(changeReport);
-    }
-
-    /**
-     * Позволяет волонтеру сменить фото в отчете
-     *
-     * @param reportId    идентификатор отчета (<b>не</b> может быть <b>null</b>)
-     * @param reportPhoto фото
-     * @return данные по отчету с измененным фото
-     */
-    public Report volunteerEditReportPhoto(Long reportId, byte[] reportPhoto) {
-        logger.info("launching the volunteerEditReportPhoto method with reportId: {}", reportId);
-        Report changeReport = reportRepository.findByReportId(reportId);
-        if (changeReport == null) {
-            throw new ObjectAbsenceException("Отчет с таким reportId не найден в БД");
-        }
-        changeReport.setReportPhoto(reportPhoto);
-        return reportRepository.save(changeReport);
-    }
-
-    /**
      * Позволяет добавить / сменить фото в отчете
      *
      * @param adopterChatId    идентификатор чата усыновителя (<b>не</b> может быть <b>null</b>)
-     * @param reportPhoto фото
+     * @param photoSize фото
      * @return false=отчет не найден / true=отчет найден, фото добавлено
      */
-    public boolean editReportPhoto(Long adopterChatId, byte[] reportPhoto) {
+    public boolean editReportPhoto(Long adopterChatId, String photoSize) {
         logger.info("launching the editReportPhoto method with volunteerId: {}", adopterChatId);
-        Report changeReport = reportRepository.findByAdopter_AdopterChatIdAndReportDate(adopterChatId, LocalDate.now());
-        if (changeReport == null || reportPhoto == null) {
+        Report changeReport = reportRepository.getReportByAdopter_AdopterChatIdAndReportDate(adopterChatId, LocalDate.now());
+        if (changeReport == null || photoSize == null) {
            return false;
         }
-        changeReport.setReportPhoto(reportPhoto);
+        changeReport.setReportPhotoSize(photoSize);
         reportRepository.save(changeReport);
         return true;
     } //(1 день = 1 отчет = 1 фото)

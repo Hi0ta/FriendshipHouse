@@ -2,7 +2,10 @@ package sky.pro.friendshiphouse.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sky.pro.friendshiphouse.constant.ReportStatus;
@@ -19,6 +22,21 @@ public class ReportController {
     private final ReportService reportService;
 
     public ReportController(ReportService reportService) {this.reportService = reportService;}
+    @Operation(
+            tags = "Отчет",
+            summary = "Список отчетов по выбранному усыновителю",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "список отчетов по выбранному усыновителю",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Report[].class)))})
+    @GetMapping("{adopterId}") // GET http://localhost:8080/adopter/adopterId
+    public ResponseEntity<Collection<Report>> getReportsByAdopterId(@Parameter(name = "adopterId", description = "обязательно правильно заполнить <b>номер adopterId</b> <br/>(если указать неверно отчет не будет найден в БД)")
+                                                                    @PathVariable Long adopterId) {
+        return ResponseEntity.ok(reportService.getReportsByAdopterId(adopterId));
+    }
 
     @Operation(
             tags = "Отчет",
@@ -26,8 +44,10 @@ public class ReportController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "список отчетов"
-                    )})
+                            description = "список отчетов",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Report[].class)))})
     @GetMapping("per-day/") // GET http://localhost:8080/adopter/per-day/
     public ResponseEntity<Collection<Report>> getAllReportPerDay(@Parameter(name = "reportDate", description = "Дата")
                                                                  @RequestParam("reportDate") LocalDate reportDate,
@@ -42,48 +62,16 @@ public class ReportController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "статус отчета успешно изменен"
-                    )})
+                            description = "статус отчета успешно изменен",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Report.class)))})
     @PutMapping("change-status/{reportId}")  // PUT http://localhost:8080/report/change-status/reportId
     public ResponseEntity<Report> editReportStatus(@Parameter(name = "reportId", description = "обязательно правильно заполнить поле <b>reportId</b> (если указать неверно отчет не будет найден в БД)")
                                                    @PathVariable long reportId,
                                                    @Parameter(name = "reportStatus", description = "AWAITING_VERIFICATION=ожидает проверки/VERIFIED_ACCEPTED=проверен, принят/VERIFIED_REQUESTED_IMPROVEMENTS=проверен, запрошены доработки")
                                                    @RequestParam("reportStatus") ReportStatus reportStatus) {
         Report changeReport = reportService.editReportStatus(reportId, reportStatus);
-        return ResponseEntity.ok(changeReport);
-    }
-
-    @Operation(
-            tags = "Отчет",
-            summary = "Изменение текста отчета",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Текст отчета успешно изменен"
-                    )})
-    @PutMapping("change-report-message/{reportId}")  // PUT http://localhost:8080/report/change-report-message/reportId
-    public ResponseEntity<Report> editReportMessage(@Parameter(name = "reportId", description = "обязательно правильно заполнить поле <b>reportId</b> (если указать неверно отчет не будет найден в БД)")
-                                                    @PathVariable long reportId,
-                                                    @Parameter(description = "Текст отчета", name = "reportMessage")
-                                                    @RequestParam("reportMessage") String reportMessage) {
-        Report changeReport = reportService.editReportMessage(reportId, reportMessage);
-        return ResponseEntity.ok(changeReport);
-    }
-
-    @Operation(
-            tags = "Отчет",
-            summary = "Изменение/добавление фото отчета",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "фото у отчета успешно изменено/добавлено"
-                    )})
-    @PutMapping("change-report-photo/{reportId}")  // PUT http://localhost:8080/report/change-report-photo/reportId
-    public ResponseEntity<Report> volunteerEditReportPhoto(@Parameter(name = "reportId", description = "обязательно правильно заполнить поле <b>reportId</b> (если указать неверно отчет не будет найден в БД)")
-                                                  @PathVariable long reportId,
-                                                  @Parameter(description = "фото", name = "reportPhoto")
-                                                  @RequestParam("reportPhoto") byte[] reportPhoto) {
-        Report changeReport = reportService.volunteerEditReportPhoto(reportId, reportPhoto);
         return ResponseEntity.ok(changeReport);
     }
 }
