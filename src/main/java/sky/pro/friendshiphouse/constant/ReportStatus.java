@@ -6,8 +6,12 @@ public enum ReportStatus {
     VERIFIED_REQUESTED_IMPROVEMENTS("проверен, запрошены доработки");
     private final String description;
 
-    ReportStatus(String description) {this.description = description;}
+    ReportStatus(String description) {
+        this.description = description;
+    }
 
-    public String getDescription() {return description;}
+    public String getDescription() {
+        return description;
+    }
 
 }

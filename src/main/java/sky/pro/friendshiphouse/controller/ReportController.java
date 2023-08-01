@@ -18,10 +18,12 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/report")
 public class ReportController {
-
     private final ReportService reportService;
 
-    public ReportController(ReportService reportService) {this.reportService = reportService;}
+    public ReportController(ReportService reportService) {
+        this.reportService = reportService;
+    }
+
     @Operation(
             tags = "Отчет",
             summary = "Список отчетов по выбранному усыновителю",
@@ -32,11 +34,27 @@ public class ReportController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = Report[].class)))})
-    @GetMapping("{adopterId}") // GET http://localhost:8080/adopter/adopterId
+    @GetMapping("by-adopterId/{adopterId}") // GET http://localhost:8080/report/adopterId
     public ResponseEntity<Collection<Report>> getReportsByAdopterId(@Parameter(name = "adopterId", description = "обязательно правильно заполнить <b>номер adopterId</b> <br/>(если указать неверно отчет не будет найден в БД)")
-                                                                    @PathVariable Long adopterId) {
+                                                                    @PathVariable long adopterId) {
         return ResponseEntity.ok(reportService.getReportsByAdopterId(adopterId));
     }
+
+    @Operation(
+            tags = "Отчет",
+            summary = "Отчет соответствующий заданному идентификатору",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "отчет найден",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Report.class)))})
+    @GetMapping("by-reportId/{reportId}") //GET http://localhost:8080/report/reportId
+    public ResponseEntity<Report> getReportByReportId(@Parameter(name = "reportId", description = "обязательно правильно заполнить поле <b>reportId</b> (если указать неверно отчет не будет найден в БД)")
+                                                      @PathVariable long reportId) {
+        return ResponseEntity.ok(reportService.getReportByReportId(reportId));
+    }//TODO  как здесь настроить просмотр фото у отчета !!??
 
     @Operation(
             tags = "Отчет",
@@ -48,12 +66,12 @@ public class ReportController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = Report[].class)))})
-    @GetMapping("per-day/") // GET http://localhost:8080/adopter/per-day/
-    public ResponseEntity<Collection<Report>> getAllReportPerDay(@Parameter(name = "reportDate", description = "Дата")
-                                                                 @RequestParam("reportDate") LocalDate reportDate,
-                                                                 @Parameter(name = "reportStatus", description = "AWAITING_VERIFICATION=ожидает проверки/VERIFIED_ACCEPTED=проверен, принят/VERIFIED_REQUESTED_IMPROVEMENTS=проверен, запрошены доработки")
-                                                                 @RequestParam("reportStatus") ReportStatus reportStatus) {
-        return ResponseEntity.ok(reportService.getAllReportPerDay(reportDate, reportStatus));
+    @GetMapping("/per-day") // GET http://localhost:8080/report/per-day
+    public ResponseEntity<Collection<Report>> getAllReportsPerDay(@Parameter(name = "reportDate", description = "Дата")
+                                                                  @RequestParam("reportDate") LocalDate reportDate,
+                                                                  @Parameter(name = "reportStatus", description = "AWAITING_VERIFICATION=ожидает проверки/VERIFIED_ACCEPTED=проверен, принят/VERIFIED_REQUESTED_IMPROVEMENTS=проверен, запрошены доработки")
+                                                                  @RequestParam("reportStatus") ReportStatus reportStatus) {
+        return ResponseEntity.ok(reportService.getAllReportsPerDay(reportDate, reportStatus));
     }
 
     @Operation(
@@ -66,7 +84,7 @@ public class ReportController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = Report.class)))})
-    @PutMapping("change-status/{reportId}")  // PUT http://localhost:8080/report/change-status/reportId
+    @PutMapping("/change-status/{reportId}")  // PUT http://localhost:8080/report/change-status/reportId
     public ResponseEntity<Report> editReportStatus(@Parameter(name = "reportId", description = "обязательно правильно заполнить поле <b>reportId</b> (если указать неверно отчет не будет найден в БД)")
                                                    @PathVariable long reportId,
                                                    @Parameter(name = "reportStatus", description = "AWAITING_VERIFICATION=ожидает проверки/VERIFIED_ACCEPTED=проверен, принят/VERIFIED_REQUESTED_IMPROVEMENTS=проверен, запрошены доработки")

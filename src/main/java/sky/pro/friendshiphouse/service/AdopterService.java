@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 public class AdopterService {
     private final AdopterRepository adopterRepository;
     private final ReportService reportService;
+    private final AnimalCatService animalCatService;
+    private final AnimalDogService animalDogService;
     private final Logger logger = LoggerFactory.getLogger(AdopterService.class);
 
 
@@ -37,17 +39,26 @@ public class AdopterService {
 
     /**
      * Позволяет вывести список усыновителей которые не прислали отчет
+     *
      * @param date на определенную дату.
      * @return список усыновителей которые не прислали отчет
      */
     public List<Adopter> getAdoptersAvailabilityReport(LocalDate date) {
         logger.info("launching the getAdoptersAvailabilityReport method");
-        Collection<Report> reports = reportService.getAllReportPerDay(date, null);
-        return reports.stream().map(Report::getAdopter).collect(Collectors.toList());
+        List<Adopter> adopters = adopterRepository.findAll();
+        List<Adopter> adopterWithReportIsNull = new ArrayList<>();
+        for (Adopter adopter : adopters) {
+            Report report = reportService.getReportPerDay(date, adopter.getAdopterId());
+            if (report == null) {
+                adopterWithReportIsNull.add(adopter);
+            }
+        }
+        return adopterWithReportIsNull;
     }
 
     /**
      * Позволяет вывести список усыновителей которые 30 дней присылали отчет
+     *
      * @return список усыновителей которые 30 дней присылали отчет
      */
     public List<Adopter> getAdoptersTrialPeriodFinal() {
@@ -56,7 +67,7 @@ public class AdopterService {
         List<Adopter> adoptersTrialPeriodFinal = new ArrayList<>();
         for (Adopter adopter : adopters) {
             Collection<Report> reports = reportService.getReportsByAdopterId(adopter.getAdopterId());
-            if (reports.size() == 30 ){
+            if (reports.size() == 30) {
                 adoptersTrialPeriodFinal.add(adopter);
             }
         }
@@ -122,6 +133,11 @@ public class AdopterService {
                 throw new ObjectAlreadyExistsException("Усыновитель с таким паспортом уже существует в БД");
             }
         });
+        if (0L != newAdopter.getAnimalCat().getAnimalCatId()) {
+            animalCatService.editAnimalCatStatus(newAdopter.getAnimalCat().getAnimalCatId(), false);
+        } else if (0L != newAdopter.getAnimalDog().getAnimalDogId()) {
+            animalDogService.editAnimalDogStatus(newAdopter.getAnimalDog().getAnimalDogId(), false);
+        }
         return adopterRepository.save(newAdopter);
     }
 

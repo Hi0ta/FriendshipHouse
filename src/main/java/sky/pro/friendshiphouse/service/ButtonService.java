@@ -72,29 +72,29 @@ public class ButtonService {
                 break;
             case "report":
                 SendMessage reportMessage = new SendMessage(chatId, """
-                                    Отчет должен быть ежедневным !!!\s
-                                    Подойди к этой задаче ответственно.\s
-                                    В день можно отправить один отчет\s
-                                    (1 сообщение с текстом + 1 фото)\s
-                                    Текст отчета в одном сообщении, должен начинаться со слова "ОТЧЕТ"\s
-                                    Далее по пунктам:\s
-                                    1) Рацион животного\s
-                                    3) Общее самочувствие и привыкание к новому месту\s
-                                    4) Изменение в поведении: отказ от старых привычек, приобретение новых\s
-                                    Фото животного - отправляется в последнюю очередь,\s
-                                    после сообщения с текстом отчета\s
-                                    Волонтеры проверяют отчеты каждый день после 21-00""");
+                        Отчет должен быть ежедневным !!!\s
+                        Подойди к этой задаче ответственно.\s
+                        В день можно отправить один отчет\s
+                        (1 сообщение с текстом + 1 фото)\s
+                        Текст отчета в одном сообщении, должен начинаться со слова "ОТЧЕТ"\s
+                        Далее по пунктам:\s
+                        1) Рацион животного\s
+                        3) Общее самочувствие и привыкание к новому месту\s
+                        4) Изменение в поведении: отказ от старых привычек, приобретение новых\s
+                        Фото животного - отправляется в последнюю очередь,\s
+                        после сообщения с текстом отчета\s
+                        Волонтеры проверяют отчеты каждый день после 21-00""");
                 telegramBot.execute(reportMessage);
                 break;
             case "dogAddress":
                 SendMessage dogAddressMessage = new SendMessage(chatId, """
-                                    тел: +7 ХХХ ХХХ ХХ ХХ\s
-                                    email: friendshipHouseDog@nemail.com\s
-                                    часы работы: ежедневно с 9-00 до 18-00\s
-                                    г. ГородN, ул. Улица, д. ХХ\s
-                                    тел. охраны: +7 ХХХ ХХХ ХХ ХХ\s
-                                    (для оформления пропуска на машину)\s
-                                    схема проезда:""");
+                        тел: +7 ХХХ ХХХ ХХ ХХ\s
+                        email: friendshipHouseDog@nemail.com\s
+                        часы работы: ежедневно с 9-00 до 18-00\s
+                        г. ГородN, ул. Улица, д. ХХ\s
+                        тел. охраны: +7 ХХХ ХХХ ХХ ХХ\s
+                        (для оформления пропуска на машину)\s
+                        схема проезда:""");
                 telegramBot.execute(dogAddressMessage);
                 try {
                     byte[] map = Files.readAllBytes(Paths.get(TelegramBotUpdatesListener.class.getResource("/MapDog.jpg").toURI()));
@@ -203,13 +203,13 @@ public class ButtonService {
                 break;
             case "catAddress":
                 SendMessage catAddressMessage = new SendMessage(chatId, """
-                                    тел: +7 ХХХ ХХХ ХХ ХХ\s
-                                    email: friendshipHouseCat@nemail.com\s
-                                    часы работы: ежедневно с 9-00 до 18-00\s
-                                    г. ГородN, ул. Улица, д. ХХ\s
-                                    тел. охраны: +7 ХХХ ХХХ ХХ ХХ\s
-                                    (для оформления пропуска на машину)\s
-                                    схема проезда:""");
+                        тел: +7 ХХХ ХХХ ХХ ХХ\s
+                        email: friendshipHouseCat@nemail.com\s
+                        часы работы: ежедневно с 9-00 до 18-00\s
+                        г. ГородN, ул. Улица, д. ХХ\s
+                        тел. охраны: +7 ХХХ ХХХ ХХ ХХ\s
+                        (для оформления пропуска на машину)\s
+                        схема проезда:""");
                 telegramBot.execute(catAddressMessage);
                 try {
                     byte[] map = Files.readAllBytes(Paths.get(TelegramBotUpdatesListener.class.getResource("/MapCat.jpg").toURI()));
@@ -276,8 +276,8 @@ public class ButtonService {
                 break;
             case "CallMeBack":
                 SendMessage sendCallMeBackMessage = new SendMessage(chatId, """
-                                    Для звонка нам понадобится твой номер телефона.\s
-                                    Напиши его в формате 8ХХХХХХХХХХ""");
+                        Для звонка нам понадобится твой номер телефона.\s
+                        Напиши его в формате 8ХХХХХХХХХХ""");
                 telegramBot.execute(sendCallMeBackMessage);
                 break;
         }

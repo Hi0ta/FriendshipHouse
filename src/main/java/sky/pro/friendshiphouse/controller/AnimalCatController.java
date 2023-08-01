@@ -44,7 +44,7 @@ public class AnimalCatController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalCat[].class)))})
-    @GetMapping() // GET http://localhost:8080/cat/
+    @GetMapping // GET http://localhost:8080/cat
     public ResponseEntity<Collection<AnimalCat>> getAllAnimalCat() {
         return ResponseEntity.ok(animalCatService.getAllAnimalCat());
     }
@@ -59,7 +59,7 @@ public class AnimalCatController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalCat[].class)))})
-    @GetMapping("statusFree") // GET http://localhost:8080/cat/statusFree
+    @GetMapping("/statusFree") // GET http://localhost:8080/cat/statusFree
     public ResponseEntity<Collection<AnimalCat>> getAnimalCatByAnimalCatStatusFree(@Parameter(description = "true=свободна / false=занята", name = "animalCatStatusFree")
                                                                                    @RequestParam("animalCatStatusFree") boolean animalCatStatusFree) {
         return ResponseEntity.ok(animalCatService.getAnimalCatByAnimalCatStatusFree(animalCatStatusFree));
@@ -75,7 +75,7 @@ public class AnimalCatController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalCat.class)))})
-    @GetMapping("{animalCatId}") // GET http://localhost:8080/cat/animalCatId
+    @GetMapping("/{animalCatId}") // GET http://localhost:8080/cat/animalCatId
     public ResponseEntity<AnimalCat> getAnimalCatById(@Parameter(name = "animalCatId", description = "обязательно правильно заполнить <b>номер animalCatId</b> <br/>(если указать неверно кошка не будет найдена в БД)")
                                                       @PathVariable long animalCatId) {
         return ResponseEntity.ok(animalCatService.getAnimalCatById(animalCatId));
@@ -94,7 +94,7 @@ public class AnimalCatController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalCat.class)))})
-    @PostMapping() //  POST http://localhost:8080/cat/
+    @PostMapping //  POST http://localhost:8080/cat
     public ResponseEntity<AnimalCat> createAnimalCat(@RequestBody AnimalCat animalCat) {
         animalCatService.createAnimalCat(animalCat);
         return ResponseEntity.ok(animalCat);
@@ -113,7 +113,7 @@ public class AnimalCatController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalCat.class)))})
-    @PutMapping()   //  PUT http://localhost:8080/cat/
+    @PutMapping   //  PUT http://localhost:8080/cat
     public ResponseEntity<AnimalCat> editAnimalCat(@RequestBody AnimalCat animalCat) {
         animalCatService.editAnimalCat(animalCat);
         return ResponseEntity.ok(animalCat);
@@ -129,13 +129,13 @@ public class AnimalCatController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalCat.class)))})
-    @PutMapping("change-status/{animalCatId}")  // PUT http://localhost:8080/cat/change-status/animalCatId
+    @PutMapping("/change-status/{animalCatId}")  // PUT http://localhost:8080/cat/change-status/animalCatId
     public ResponseEntity<AnimalCat> editAnimalCatStatus(@Parameter(name = "animalCatId", description = "обязательно правильно заполнить поле <b>animalCatId</b> (если указать неверно кошка не будет найдена в БД и изменения вносить будет некуда)")
                                                          @PathVariable long animalCatId,
                                                          @Parameter(description = "true=свободна / false=занята", name = "animalCatStatusFree")
                                                          @RequestParam("animalCatStatusFree") boolean animalCatStatusFree) {
         AnimalCat changeAnimalCat = animalCatService.editAnimalCatStatus(animalCatId, animalCatStatusFree);
-        return ResponseEntity.ok(changeAnimalCat);
+        return ResponseEntity.ok(changeAnimalCat); //
     }
 
     @Operation(
@@ -145,7 +145,7 @@ public class AnimalCatController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "кошка удалена из БД")})
-    @DeleteMapping("{animalCatId}")  // DELETE http://localhost:8080/cat/animalCatId
+    @DeleteMapping("/{animalCatId}")  // DELETE http://localhost:8080/cat/animalCatId
     public ResponseEntity deleteAnimalCat(@Parameter(name = "animalCatId", description = "обязательно правильно заполнить <b>animalCatId</b> <br/>(если указать неверно кошка не будет найдена в БД)")
                                           @PathVariable long animalCatId) {
         animalCatService.deleteAnimalCat(animalCatId);

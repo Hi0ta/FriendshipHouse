@@ -8,8 +8,12 @@ public enum AnimalDogKind {
 
     private final String description;
 
-    AnimalDogKind(String description) {this.description = description;}
+    AnimalDogKind(String description) {
+        this.description = description;
+    }
 
-    public String getDescription() {return description;}
+    public String getDescription() {
+        return description;
+    }
 
 }

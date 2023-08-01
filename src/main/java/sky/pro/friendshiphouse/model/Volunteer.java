@@ -18,8 +18,8 @@ public class Volunteer {
     private boolean volunteerStatusFree; //занят; свободен
 
     public Volunteer() {}
-    public Volunteer(long volunteerId, Long volunteerChatId, String volunteerName) {
-        this.volunteerId = volunteerId;
+
+    public Volunteer(Long volunteerChatId, String volunteerName) {
         this.volunteerChatId = volunteerChatId;
         this.volunteerName = volunteerName;
         this.volunteerStatusFree = true;
@@ -32,8 +32,11 @@ public class Volunteer {
         Volunteer volunteer = (Volunteer) o;
         return volunteerId == volunteer.volunteerId && volunteerChatId.equals(volunteer.volunteerChatId) && volunteerName.equals(volunteer.volunteerName);
     }
+
     @Override
-    public int hashCode() {return Objects.hash(volunteerId, volunteerChatId, volunteerName);}
+    public int hashCode() {
+        return Objects.hash(volunteerId, volunteerChatId, volunteerName);
+    }
 
     @Override
     public String toString() {

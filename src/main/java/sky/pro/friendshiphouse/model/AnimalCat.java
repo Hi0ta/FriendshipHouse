@@ -1,7 +1,7 @@
 package sky.pro.friendshiphouse.model;
 
 import lombok.*;
-import sky.pro.friendshiphouse.constant.AnimalDogKind;
+import sky.pro.friendshiphouse.constant.AnimalCatKind;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -17,20 +17,14 @@ public class AnimalCat {
     private int animalCatAge;
     private String animalCatBreed;
     private String animalCatInfo;
-    private AnimalDogKind animalCatKind;  //котенок; взрослый; с особенностями по зрению и передвижению(ENUM)
+    @Enumerated(EnumType.STRING)
+    private AnimalCatKind animalCatKind;  //котенок; взрослый; с особенностями по зрению и передвижению(ENUM)
     private boolean animalCatStatusFree; // занят; свободен
-    @OneToOne
-    @JoinColumn(name = "adopter_id")
-    private Adopter adopter;
 
-    public AnimalCat() {}
-    public AnimalCat(long animalCatId,
-                     String animalCatName,
-                     int animalCatAge,
-                     String animalCatBreed,
-                     String animalCatInfo,
-                     AnimalDogKind animalCatKind) {
-        this.animalCatId = animalCatId;
+    public AnimalCat() {
+    }
+
+    public AnimalCat(String animalCatName, int animalCatAge, String animalCatBreed, String animalCatInfo, AnimalCatKind animalCatKind) {
         this.animalCatName = animalCatName;
         this.animalCatAge = animalCatAge;
         this.animalCatBreed = animalCatBreed;
@@ -46,8 +40,11 @@ public class AnimalCat {
         AnimalCat animalCat = (AnimalCat) o;
         return animalCatId == animalCat.animalCatId && animalCatAge == animalCat.animalCatAge && animalCatName.equals(animalCat.animalCatName) && animalCatBreed.equals(animalCat.animalCatBreed) && animalCatInfo.equals(animalCat.animalCatInfo);
     }
+
     @Override
-    public int hashCode() {return Objects.hash(animalCatId, animalCatName, animalCatAge, animalCatBreed, animalCatInfo);}
+    public int hashCode() {
+        return Objects.hash(animalCatId, animalCatName, animalCatAge, animalCatBreed, animalCatInfo);
+    }
 
     @Override
     public String toString() {
@@ -58,7 +55,6 @@ public class AnimalCat {
                 ", Порода: " + animalCatBreed +
                 ", Дополнительная информация: " + animalCatInfo +
                 ", Особенности: " + animalCatKind.getDescription() +
-                ", Статус: " + animalCatStatusFree +
-                ", Усыновитель Id: " + adopter.getAdopterId();
+                ", Статус: " + animalCatStatusFree;
     }
 }

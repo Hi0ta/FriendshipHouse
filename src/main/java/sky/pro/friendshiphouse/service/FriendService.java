@@ -76,6 +76,6 @@ public class FriendService {
         SendMessage callVolunteerMessage = new SendMessage(volunteerChatId, "Друг (Id = " + friendId + ") жаждет пообщаться, срочно свяжись с ним");
         telegramBot.execute(callVolunteerMessage);
         volunteerService.editVolunteerStatus(volunteer.getVolunteerId(), false); //после того как волонтер закончит общение с другом ему необходимо самому сменить свой статус на TRUE
-// TODO как в сообщении этому волонтеру отправить контакт телеграмма друга с которым нужно связаться?
+//TODO  как в сообщении этому волонтеру отправить контакт телеграмма друга с которым нужно связаться?
     }
 }

@@ -11,7 +11,8 @@ import java.util.List;
 public interface AdopterRepository extends JpaRepository<Adopter, Long> {
     Adopter findByAdopterId(long adopterId);
 
-    Adopter findByAdopterChatId(Long adopterChatId);
+    Adopter findByAdopterChatId(long adopterChatId);
+
     @NotNull
     List<Adopter> findAll();
 

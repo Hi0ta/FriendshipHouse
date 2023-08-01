@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sky.pro.friendshiphouse.exception.ObjectAbsenceException;
 import sky.pro.friendshiphouse.exception.ObjectAlreadyExistsException;
-import sky.pro.friendshiphouse.model.AnimalCat;
 import sky.pro.friendshiphouse.model.AnimalDog;
 import sky.pro.friendshiphouse.service.AnimalDogService;
 
@@ -47,7 +46,7 @@ public class AnimalDogController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalDog[].class)))})
-    @GetMapping() // GET http://localhost:8080/dog/
+    @GetMapping // GET http://localhost:8080/dog
     public ResponseEntity<Collection<AnimalDog>> getAllAnimalDog() {
         return ResponseEntity.ok(animalDogService.getAllAnimalDog());
     }
@@ -62,7 +61,7 @@ public class AnimalDogController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalDog[].class)))})
-    @GetMapping("statusFree") // GET http://localhost:8080/dog/statusFree
+    @GetMapping("/statusFree") // GET http://localhost:8080/dog/statusFree
     public ResponseEntity<Collection<AnimalDog>> getAnimalDogByAnimalDogStatusFree(@Parameter(description = "true=свободна / false=занята", name = "animalDogStatusFree")
                                                                                    @RequestParam("animalDogStatusFree") boolean animalDogStatusFree) {
         return ResponseEntity.ok(animalDogService.getAnimalDogByAnimalDogStatusFree(animalDogStatusFree));
@@ -78,7 +77,7 @@ public class AnimalDogController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalDog.class)))})
-    @GetMapping("{animalDogId}") // GET http://localhost:8080/dog/animalDogId
+    @GetMapping("/{animalDogId}") // GET http://localhost:8080/dog/animalDogId
     public ResponseEntity<AnimalDog> getAnimalDogById(@Parameter(name = "animalDogId", description = "обязательно правильно заполнить <b>номер animalDogId</b> <br/>(если указать неверно собака не будет найдена в БД)")
                                                       @PathVariable long animalDogId) {
         return ResponseEntity.ok(animalDogService.getAnimalDogById(animalDogId));
@@ -97,7 +96,7 @@ public class AnimalDogController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalDog.class)))})
-    @PostMapping() //  POST http://localhost:8080/dog/
+    @PostMapping //  POST http://localhost:8080/dog
     public ResponseEntity<AnimalDog> createAnimalDog(@RequestBody AnimalDog animalDog) {
         animalDogService.createAnimalDog(animalDog);
         return ResponseEntity.ok(animalDog);
@@ -116,7 +115,7 @@ public class AnimalDogController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalDog.class)))})
-    @PutMapping()   //  PUT http://localhost:8080/dog/
+    @PutMapping  //  PUT http://localhost:8080/dog
     public ResponseEntity<AnimalDog> editAnimalDog(@RequestBody AnimalDog animalDog) {
         animalDogService.editAnimalDog(animalDog);
         return ResponseEntity.ok(animalDog);
@@ -132,7 +131,7 @@ public class AnimalDogController {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = AnimalDog.class)))})
-    @PutMapping("change-status/{animalDogId}")  // PUT http://localhost:8080/dog/change-status/animalDogId
+    @PutMapping("/change-status/{animalDogId}")  // PUT http://localhost:8080/dog/change-status/animalDogId
     public ResponseEntity<AnimalDog> editAnimalDogStatus(@Parameter(name = "animalDogId", description = "обязательно правильно заполнить поле <b>animalDogId</b> (если указать неверно собака не будет найдена в БД и изменения вносить будет некуда)")
                                                          @PathVariable long animalDogId,
                                                          @Parameter(description = "true=свободна / false=занята", name = "animalDogStatusFree")
@@ -148,7 +147,7 @@ public class AnimalDogController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "собака удалена из БД")})
-    @DeleteMapping("{animalDogId}")  // DELETE http://localhost:8080/dog/animalDogId
+    @DeleteMapping("/{animalDogId}")  // DELETE http://localhost:8080/dog/animalDogId
     public ResponseEntity deleteAnimalDog(@Parameter(name = "animalDogId", description = "обязательно правильно заполнить <b>animalDogId</b> <br/>(если указать неверно собака не будет найдена в БД)")
                                           @PathVariable long animalDogId) {
         animalDogService.deleteAnimalDog(animalDogId);
