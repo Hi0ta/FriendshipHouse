@@ -9,6 +9,7 @@ import sky.pro.friendshiphouse.exception.FormatNotComplianceException;
 import sky.pro.friendshiphouse.exception.ObjectAbsenceException;
 import sky.pro.friendshiphouse.exception.ObjectAlreadyExistsException;
 import sky.pro.friendshiphouse.model.Adopter;
+import sky.pro.friendshiphouse.model.AnimalCat;
 import sky.pro.friendshiphouse.repository.AdopterRepository;
 import sky.pro.friendshiphouse.service.AdopterService;
 
@@ -30,6 +31,7 @@ public class AdopterServiceTests {
     private AdopterService adopterService;
 
     private Adopter adopter = new Adopter();
+    private AnimalCat animalCat = new AnimalCat();
 
     final long adopterId = 1L;
     final Long adopterChatId = 1234567890L;
@@ -94,6 +96,9 @@ public class AdopterServiceTests {
         adopter.setAdopterPassport(adopterPassport);
         adopter.setAdopterTelNumber(adopterTelNumber);
         adopter.setAdopterAddress(adopterAddress);
+        adopter.setAdopterStatusBlackList(false);
+        adopter.setAnimalCat(animalCat);
+        adopter.setAnimalDog(null);
 
         when(adopterRepository.save(adopter)).thenReturn(adopter);
         Adopter checkedAdopter = adopterService.createAdopter(adopter);

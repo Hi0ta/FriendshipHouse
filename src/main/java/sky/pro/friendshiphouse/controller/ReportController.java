@@ -1,5 +1,6 @@
 package sky.pro.friendshiphouse.controller;
 
+import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.response.GetFileResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,22 +12,30 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import sky.pro.friendshiphouse.constant.ReportStatus;
 import sky.pro.friendshiphouse.model.Report;
 import sky.pro.friendshiphouse.service.ReportService;
 
-import java.nio.file.Path;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.UUID;
+
+import static org.springframework.http.MediaType.IMAGE_JPEG;
 
 @RestController
 @RequestMapping("/report")
 public class ReportController {
     private final ReportService reportService;
+    private final TelegramBot telegramBot;
 
-    public ReportController(ReportService reportService) {
+    public ReportController(ReportService reportService, TelegramBot telegramBot) {
         this.reportService = reportService;
+        this.telegramBot = telegramBot;
     }
 
     @Operation(
@@ -71,14 +80,18 @@ public class ReportController {
     @GetMapping("photo/{reportId}")
     public ResponseEntity<byte[]> downloadPhoto(@Parameter(name = "reportId", description = "обязательно правильно заполнить поле <b>reportId</b> (если указать неверно отчет не будет найден в БД)")
                                                 @PathVariable long reportId) {
-        byte[] photo = reportService.getReportByReportId(reportId).getReportPhotoSize().getBytes();
+        byte[] photo;
+        try {
+            photo = telegramBot.getFileContent(telegramBot.execute(new GetFile(reportService.getReportByReportId(reportId).getReportPhotoSize())).file());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG);
-        headers.setContentLength(photo.length);
+        headers.setContentType(IMAGE_JPEG);
         return ResponseEntity.status(HttpStatus.OK)
                 .headers(headers)
                 .body(photo);
-    }//TODO настроить просмотр фото у отчета !!??
+    }
 
     @Operation(
             tags = "Отчет",
