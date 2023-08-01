@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface AnimalDogRepository extends JpaRepository<AnimalDog, Long> {
     AnimalDog findByAnimalDogId(long animalDogId);
+
     @NotNull
     List<AnimalDog> findAll();
 

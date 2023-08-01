@@ -32,6 +32,7 @@ public class AnimalCatService {
 
     /**
      * Позволяет вывести список всех кошек из БД с учетом статуса
+     *
      * @param statusFree (true=свободна/ false=занята)
      * @return список всех кошек из БД с учетом статуса
      */
@@ -91,8 +92,8 @@ public class AnimalCatService {
     /**
      * Позволяет сменить статус кошке (занята/свободна)
      *
-     * @param animalCatId идентификатор кошки (<b>не</b> может быть <b>null</b>)
-     * @param animalCatStatusFree      (true=свободна/ false=занята)
+     * @param animalCatId         идентификатор кошки (<b>не</b> может быть <b>null</b>)
+     * @param animalCatStatusFree (true=свободна/ false=занята)
      * @return данные по кошке с измененным статусом
      */
     public AnimalCat editAnimalCatStatus(long animalCatId, boolean animalCatStatusFree) {

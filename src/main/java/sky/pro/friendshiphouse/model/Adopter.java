@@ -3,7 +3,6 @@ package sky.pro.friendshiphouse.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -24,48 +23,18 @@ public class Adopter {
     private String adopterPassport;
     private String adopterTelNumber;
     private String adopterAddress;
-    @OneToOne
-    @JoinColumn(name = "animal_dog_id")
-    private AnimalDog animalDog;
+    private boolean adopterStatusBlackList;  // true=заблокирован(не прошел испытательный срок) false=нет в черном списке/не заблокирован
     @OneToOne
     @JoinColumn(name = "animal_cat_id")
     private AnimalCat animalCat;
-    @OneToMany(mappedBy = "adopter")
-    private Collection<Report> report;
-    private boolean adopterStatusBlackList;  // true=заблокирован(не прошел испытательный срок) false=нет в черном списке/не заблокирован
+    @OneToOne
+    @JoinColumn(name = "animal_dog_id")
+    private AnimalDog animalDog;
 
-    public Adopter() {}
-    public Adopter(long adopterId,
-                   Long adopterChatId,
-                   String adopterLastname,
-                   String adopterFirstname,
-                   String adopterMiddleName,
-                   String adopterPassport,
-                   String adopterTelNumber,
-                   String adopterAddress,
-                   AnimalDog animalDog) {
-        this.adopterId = adopterId;
-        this.adopterChatId = adopterChatId;
-        this.adopterLastname = adopterLastname;
-        this.adopterFirstname = adopterFirstname;
-        this.adopterMiddleName = adopterMiddleName;
-        this.adopterPassport = adopterPassport;
-        this.adopterTelNumber = adopterTelNumber;
-        this.adopterAddress = adopterAddress;
-        this.animalDog = animalDog;
-        this.adopterStatusBlackList = false;
+    public Adopter() {
     }
 
-    public Adopter(long adopterId,
-                   Long adopterChatId,
-                   String adopterLastname,
-                   String adopterFirstname,
-                   String adopterMiddleName,
-                   String adopterPassport,
-                   String adopterTelNumber,
-                   String adopterAddress,
-                   AnimalCat animalCat) {
-        this.adopterId = adopterId;
+    public Adopter(Long adopterChatId, String adopterLastname, String adopterFirstname, String adopterMiddleName, String adopterPassport, String adopterTelNumber, String adopterAddress, AnimalCat animalCat) {
         this.adopterChatId = adopterChatId;
         this.adopterLastname = adopterLastname;
         this.adopterFirstname = adopterFirstname;
@@ -73,8 +42,20 @@ public class Adopter {
         this.adopterPassport = adopterPassport;
         this.adopterTelNumber = adopterTelNumber;
         this.adopterAddress = adopterAddress;
-        this.animalCat = animalCat;
         this.adopterStatusBlackList = false;
+        this.animalCat = animalCat;
+    }
+
+    public Adopter(Long adopterChatId, String adopterLastname, String adopterFirstname, String adopterMiddleName, String adopterPassport, String adopterTelNumber, String adopterAddress, AnimalDog animalDog) {
+        this.adopterChatId = adopterChatId;
+        this.adopterLastname = adopterLastname;
+        this.adopterFirstname = adopterFirstname;
+        this.adopterMiddleName = adopterMiddleName;
+        this.adopterPassport = adopterPassport;
+        this.adopterTelNumber = adopterTelNumber;
+        this.adopterAddress = adopterAddress;
+        this.adopterStatusBlackList = false;
+        this.animalDog = animalDog;
     }
 
     @Override
@@ -84,8 +65,11 @@ public class Adopter {
         Adopter adopter = (Adopter) o;
         return adopterId == adopter.adopterId && adopterChatId.equals(adopter.adopterChatId) && adopterLastname.equals(adopter.adopterLastname) && adopterFirstname.equals(adopter.adopterFirstname) && adopterMiddleName.equals(adopter.adopterMiddleName) && adopterPassport.equals(adopter.adopterPassport) && adopterTelNumber.equals(adopter.adopterTelNumber) && adopterAddress.equals(adopter.adopterAddress);
     }
+
     @Override
-    public int hashCode() {return Objects.hash(adopterId, adopterChatId, adopterLastname, adopterFirstname, adopterMiddleName, adopterPassport, adopterTelNumber, adopterAddress);}
+    public int hashCode() {
+        return Objects.hash(adopterId, adopterChatId, adopterLastname, adopterFirstname, adopterMiddleName, adopterPassport, adopterTelNumber, adopterAddress);
+    }
 
     @Override
     public String toString() {
@@ -98,7 +82,6 @@ public class Adopter {
                 ", Паспорт: " + adopterPassport +
                 ", Тел: " + adopterTelNumber +
                 ", Адрес: " + adopterAddress +
-                ", animalDog: " + animalDog.getAnimalDogId() +
-                ", animalCat: " + animalCat.getAnimalCatId() +
-                ", adopterStatusBlackList = " + adopterStatusBlackList;}
+                ", adopterStatusBlackList = " + adopterStatusBlackList;
+    }
 }

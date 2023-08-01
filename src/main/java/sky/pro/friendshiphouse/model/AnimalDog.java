@@ -17,20 +17,14 @@ public class AnimalDog {
     private int animalDogAge;
     private String animalDogBreed;
     private String animalDogInfo;
+    @Enumerated(EnumType.STRING)
     private AnimalDogKind animalDogKind;  //щенок; взрослый; с особенностями по зрению и передвижению(ENUM)
     private boolean animalDogStatusFree; // занят; свободен
-    @OneToOne
-    @JoinColumn(name = "adopter_id")
-    private Adopter adopter;
 
-    public AnimalDog() {}
-    public AnimalDog(long animalDogId,
-                     String animalDogName,
-                     int animalDogAge,
-                     String animalDogBreed,
-                     String animalDogInfo,
-                     AnimalDogKind animalDogKind) {
-        this.animalDogId = animalDogId;
+    public AnimalDog() {
+    }
+
+    public AnimalDog(String animalDogName, int animalDogAge, String animalDogBreed, String animalDogInfo, AnimalDogKind animalDogKind) {
         this.animalDogName = animalDogName;
         this.animalDogAge = animalDogAge;
         this.animalDogBreed = animalDogBreed;
@@ -46,8 +40,11 @@ public class AnimalDog {
         AnimalDog animalDog = (AnimalDog) o;
         return animalDogId == animalDog.animalDogId && animalDogAge == animalDog.animalDogAge && animalDogName.equals(animalDog.animalDogName) && animalDogBreed.equals(animalDog.animalDogBreed) && animalDogInfo.equals(animalDog.animalDogInfo);
     }
+
     @Override
-    public int hashCode() {return Objects.hash(animalDogId, animalDogName, animalDogAge, animalDogBreed, animalDogInfo);}
+    public int hashCode() {
+        return Objects.hash(animalDogId, animalDogName, animalDogAge, animalDogBreed, animalDogInfo);
+    }
 
     @Override
     public String toString() {
@@ -58,7 +55,6 @@ public class AnimalDog {
                 ", Порода: " + animalDogBreed +
                 ", Дополнительная информация: " + animalDogInfo +
                 ", Особенности: " + animalDogKind.getDescription() +
-                ", Статус: " + animalDogStatusFree +
-                ", Усыновитель Id: " + adopter.getAdopterId();
+                ", Статус: " + animalDogStatusFree;
     }
 }

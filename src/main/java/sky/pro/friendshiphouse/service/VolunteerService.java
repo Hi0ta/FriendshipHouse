@@ -125,8 +125,7 @@ public class VolunteerService {
         List<Volunteer> volunteersFree = volunteerRepository.getVolunteerByVolunteerStatusFreeIsTrue();
         if (!volunteersFree.isEmpty()) {
             return volunteersFree.stream().findFirst().get();
-//TODO как из списка выбрать 1 волонтера (может рандомно, или просто брать всегда первого из списка)?
-        }
+        }//из списка берем 1 волонтера, сейчас это всегда первый из списка(может быть переделать что бы выбирать рандомно)?
         List<Volunteer> volunteers = volunteerRepository.getVolunteerByVolunteerStatusFreeIsFalse();
         return volunteers.stream().findFirst().get(); //первый волонтер из БД - это администратор и у него всегда статус false, если нет свободных волонтеров запрос попадет к нему и самостоятельно решит что с этим сделать
     }

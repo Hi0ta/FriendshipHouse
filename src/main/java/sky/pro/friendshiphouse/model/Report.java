@@ -1,12 +1,10 @@
 package sky.pro.friendshiphouse.model;
 
-import com.pengrad.telegrambot.model.PhotoSize;
 import lombok.*;
 import sky.pro.friendshiphouse.constant.ReportStatus;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
@@ -20,22 +18,20 @@ public class Report {
     private String reportPhotoSize;
     private String reportMessage;
     private LocalDate reportDate;
+    @Enumerated(EnumType.STRING)
     private ReportStatus reportStatus; // ожидает проверки; проверен принят; проверен запрошены доработки (ENUM)
     @ManyToOne
     @JoinColumn(name = "adopter_id")
     private Adopter adopter;
 
-    public Report() {}
-    public Report(long reportId,
-                  String reportMessage,
-                  LocalDate reportDate,
-                  ReportStatus reportStatus,
-                  Adopter adopter) {
-        this.reportId = reportId;
+    public Report() {
+    }
+
+    public Report(String reportPhotoSize, String reportMessage, LocalDate reportDate, ReportStatus reportStatus) {
+        this.reportPhotoSize = reportPhotoSize;
         this.reportMessage = reportMessage;
         this.reportDate = reportDate;
         this.reportStatus = reportStatus;
-        this.adopter = adopter;
     }
 
     @Override
@@ -47,7 +43,9 @@ public class Report {
     }
 
     @Override
-    public int hashCode() {return Objects.hash(reportId, reportPhotoSize, reportMessage, reportDate);}
+    public int hashCode() {
+        return Objects.hash(reportId, reportPhotoSize, reportMessage, reportDate);
+    }
 
     @Override
     public String toString() {
