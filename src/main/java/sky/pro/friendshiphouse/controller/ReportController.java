@@ -1,10 +1,14 @@
 package sky.pro.friendshiphouse.controller;
 
+import com.pengrad.telegrambot.request.GetFile;
+import com.pengrad.telegrambot.response.GetFileResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +16,7 @@ import sky.pro.friendshiphouse.constant.ReportStatus;
 import sky.pro.friendshiphouse.model.Report;
 import sky.pro.friendshiphouse.service.ReportService;
 
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -54,7 +59,26 @@ public class ReportController {
     public ResponseEntity<Report> getReportByReportId(@Parameter(name = "reportId", description = "обязательно правильно заполнить поле <b>reportId</b> (если указать неверно отчет не будет найден в БД)")
                                                       @PathVariable long reportId) {
         return ResponseEntity.ok(reportService.getReportByReportId(reportId));
-    }//TODO  как здесь настроить просмотр фото у отчета !!??
+    }
+
+    @Operation(
+            tags = "Отчет",
+            summary = "Фото к отчету по его reportId",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "фото")})
+    @GetMapping("photo/{reportId}")
+    public ResponseEntity<byte[]> downloadPhoto(@Parameter(name = "reportId", description = "обязательно правильно заполнить поле <b>reportId</b> (если указать неверно отчет не будет найден в БД)")
+                                                @PathVariable long reportId) {
+        byte[] photo = reportService.getReportByReportId(reportId).getReportPhotoSize().getBytes();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentLength(photo.length);
+        return ResponseEntity.status(HttpStatus.OK)
+                .headers(headers)
+                .body(photo);
+    }//TODO настроить просмотр фото у отчета !!??
 
     @Operation(
             tags = "Отчет",
