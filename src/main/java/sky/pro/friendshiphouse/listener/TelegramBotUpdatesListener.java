@@ -83,8 +83,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     SendMessage welcomeMessage = new SendMessage(chatId, "Дорогой друг, " + name + ", \n" +
                             "тебя приветствует чат бот дома дружбы для животных. \uD83D\uDE00 \n" +
                             "У нас есть дом для собак и отдельный дом для кошек. \n" +
-                            "Я могу о них тебе рассказать \n" +
-                            "Если чего-то не найдешь всегда сможешь позвать волонтера. \n" +
+                            "Я могу о них тебе рассказать. \n" +
+                            "Если чего-то не найдешь, всегда сможешь позвать волонтера. \n" +
                             "(это cамый нижний пункт в меню) \n" +
                             "Итак,  выбери с кем желаешь дружить?");
                     InlineKeyboardButton dogButton = new InlineKeyboardButton("Собаки");
@@ -102,7 +102,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     InlineKeyboardButton dogConsult = new InlineKeyboardButton("Советы и консультации");
                     dogConsult.callbackData("dogConsult");
                     InlineKeyboardButton dogReport = new InlineKeyboardButton("Оправить отчет");
-                    dogReport.callbackData("dogReport");
+                    dogReport.callbackData("report");
                     Keyboard keyboardDog = new InlineKeyboardMarkup(dogInfo).addRow(dogConsult).addRow(dogReport);
                     dogMessage.replyMarkup(keyboardDog);
                     telegramBot.execute(dogMessage);
@@ -113,7 +113,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     InlineKeyboardButton catConsult = new InlineKeyboardButton("Советы и консультации");
                     catConsult.callbackData("catConsult");
                     InlineKeyboardButton catReport = new InlineKeyboardButton("Оправить отчет");
-                    catReport.callbackData("catReport");
+                    catReport.callbackData("report");
                     Keyboard keyboardCat = new InlineKeyboardMarkup(catInfo).addRow(catConsult).addRow(catReport);
                     catMessage.replyMarkup(keyboardCat);
                     telegramBot.execute(catMessage);
@@ -125,9 +125,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                             жми кнопку *ПОЗВОНИТЕ МНЕ* и следуй инструкции""");
                     InlineKeyboardButton callVolunteer = new InlineKeyboardButton("ПОЗВАТЬ ВОЛОНТЕРА");
                     callVolunteer.callbackData("callVolunteer");
-                    InlineKeyboardButton CallMeBack = new InlineKeyboardButton("ПОЗВОНИТЕ МНЕ");
-                    CallMeBack.callbackData("CallMeBack");
-                    Keyboard keyboardVolunteer = new InlineKeyboardMarkup(callVolunteer, CallMeBack);
+                    InlineKeyboardButton callMeBack = new InlineKeyboardButton("ПОЗВОНИТЕ МНЕ");
+                    callMeBack.callbackData("callMeBack");
+                    Keyboard keyboardVolunteer = new InlineKeyboardMarkup(callVolunteer, callMeBack);
                     volunteerMessage.replyMarkup(keyboardVolunteer);
                     telegramBot.execute(volunteerMessage);
 //далее распознавание сообщений от друзей/усыновителей
@@ -168,7 +168,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     adopterService.editAdopterStatusBlackList(adopterId); // меняет статус усыновителя на - заблокирован.
                     telegramBot.execute(notPassedMessage);
                 } else if (textIncomingMessage.matches("(remakeID:)([0-9]+)")) {
-                    String adopterId = update.message().text().substring(10);
+                    String adopterId = update.message().text().substring(9);
                     Long adopterChatId = adopterService.getAdopterByChatId(Long.parseLong(adopterId, 10)).getAdopterChatId();
                     SendMessage remakeMessage = new SendMessage(adopterChatId, "Дорогой усыновитель, мы заметили, что ты заполняешь отчет не так подробно, как необходимо. Пожалуйста, подойди ответственнее к этому занятию. В противном случае волонтеры приюта будут обязаны самолично проверять условия содержания животного");
                     telegramBot.execute(remakeMessage);

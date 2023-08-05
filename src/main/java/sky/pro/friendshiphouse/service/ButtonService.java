@@ -26,7 +26,7 @@ public class ButtonService {
 
     public void buttonSelection(String data, Long chatId) {
         switch (data) {
-            case "dogButton":
+            case "dogButton" -> {
                 SendMessage dogMessage = new SendMessage(chatId, "Выбери интересующий тебя раздел в доме дружбы для собак:");
                 InlineKeyboardButton dogInfo = new InlineKeyboardButton("Общая информация");
                 dogInfo.callbackData("dogInfo");
@@ -37,8 +37,8 @@ public class ButtonService {
                 Keyboard keyboardDog = new InlineKeyboardMarkup(dogInfo).addRow(dogConsult).addRow(dogReport);
                 dogMessage.replyMarkup(keyboardDog);
                 telegramBot.execute(dogMessage);
-                break;
-            case "dogInfo":
+            }
+            case "dogInfo" -> {
                 SendMessage dogInfoMessage = new SendMessage(chatId, "Здесь должна быть информация о приюте(его назначение и суть)");
                 InlineKeyboardButton dogAddress = new InlineKeyboardButton("Часы работы, адрес, схема проезда");
                 dogAddress.callbackData("dogAddress");
@@ -47,8 +47,8 @@ public class ButtonService {
                 Keyboard keyboardDogRecommendations = new InlineKeyboardMarkup(dogAddress).addRow(dogRecommendations);
                 dogInfoMessage.replyMarkup(keyboardDogRecommendations);
                 telegramBot.execute(dogInfoMessage);
-                break;
-            case "dogConsult":
+            }
+            case "dogConsult" -> {
                 SendMessage dogConsultMessage = new SendMessage(chatId, "Здесь должна быть информация о предоставляемых консультациях");
                 InlineKeyboardButton dogIntroduction = new InlineKeyboardButton("Правила знакомства");
                 dogIntroduction.callbackData("dogIntroduction");
@@ -69,8 +69,8 @@ public class ButtonService {
                         .addRow(cynologistList).addRow(dogReasonRefusal);
                 dogConsultMessage.replyMarkup(keyboardDogConsult);
                 telegramBot.execute(dogConsultMessage);
-                break;
-            case "report":
+            }
+            case "report" -> {
                 SendMessage reportMessage = new SendMessage(chatId, """
                         Отчет должен быть ежедневным !!!\s
                         Подойди к этой задаче ответственно.\s
@@ -79,14 +79,14 @@ public class ButtonService {
                         Текст отчета в одном сообщении, должен начинаться со слова "ОТЧЕТ"\s
                         Далее по пунктам:\s
                         1) Рацион животного\s
-                        3) Общее самочувствие и привыкание к новому месту\s
-                        4) Изменение в поведении: отказ от старых привычек, приобретение новых\s
+                        2) Общее самочувствие и привыкание к новому месту\s
+                        3) Изменение в поведении: отказ от старых привычек, приобретение новых\s
                         Фото животного - отправляется в последнюю очередь,\s
                         после сообщения с текстом отчета\s
                         Волонтеры проверяют отчеты каждый день после 21-00""");
                 telegramBot.execute(reportMessage);
-                break;
-            case "dogAddress":
+            }
+            case "dogAddress" -> {
                 SendMessage dogAddressMessage = new SendMessage(chatId, """
                         тел: +7 ХХХ ХХХ ХХ ХХ\s
                         email: friendshipHouseDog@nemail.com\s
@@ -103,24 +103,24 @@ public class ButtonService {
                 } catch (IOException | URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
-                break;
-            case "dogRecommendations":
+            }
+            case "dogRecommendations" -> {
                 SendMessage dogRecommendationsMessage = new SendMessage(chatId, "здесь должны быть рекомендации о технике безопасности  на территории дома для собак");
                 telegramBot.execute(dogRecommendationsMessage);
-                break;
-            case "dogIntroduction":
+            }
+            case "dogIntroduction" -> {
                 SendMessage dogIntroductionMessage = new SendMessage(chatId, "здесь должны быть правила знакомства с собаками");
                 telegramBot.execute(dogIntroductionMessage);
-                break;
-            case "dogDocList":
+            }
+            case "dogDocList" -> {
                 SendMessage dogDocListMessage = new SendMessage(chatId, "здесь должен быть список документов необходимых для усыновления собак");
                 telegramBot.execute(dogDocListMessage);
-                break;
-            case "dogTransportation":
+            }
+            case "dogTransportation" -> {
                 SendMessage dogTransportationMessage = new SendMessage(chatId, "здесь должна быть инфа о транспортировке собак");
                 telegramBot.execute(dogTransportationMessage);
-                break;
-            case "dogHomeImprovement":
+            }
+            case "dogHomeImprovement" -> {
                 SendMessage dogHomeImprovementMessage = new SendMessage(chatId, "выберите категорию");
                 InlineKeyboardButton homePuppy = new InlineKeyboardButton("домик для щенка");
                 homePuppy.callbackData("homePuppy");
@@ -133,36 +133,36 @@ public class ButtonService {
                 Keyboard keyboardDogHomeImprovementMessage = new InlineKeyboardMarkup(homePuppy).addRow(homeDog).addRow(homeDogWithoutVision).addRow(homeDogWithoutMovement);
                 dogHomeImprovementMessage.replyMarkup(keyboardDogHomeImprovementMessage);
                 telegramBot.execute(dogHomeImprovementMessage);
-                break;
-            case "homePuppy":
+            }
+            case "homePuppy" -> {
                 SendMessage homePuppyMessage = new SendMessage(chatId, "здесь должна быть инфа об обустройстве дома для щенков");
                 telegramBot.execute(homePuppyMessage);
-                break;
-            case "homeDog":
+            }
+            case "homeDog" -> {
                 SendMessage homeDogMessage = new SendMessage(chatId, "здесь должна быть инфа об обустройстве дома для взрослых собак");
                 telegramBot.execute(homeDogMessage);
-                break;
-            case "homeDogWithoutVision":
+            }
+            case "homeDogWithoutVision" -> {
                 SendMessage homeDogWithoutVisionMessage = new SendMessage(chatId, "здесь должна быть инфа об обустройстве дома для собак с ограниченным зрением");
                 telegramBot.execute(homeDogWithoutVisionMessage);
-                break;
-            case "homeDogWithoutMovement":
+            }
+            case "homeDogWithoutMovement" -> {
                 SendMessage homeDogWithoutMovementMessage = new SendMessage(chatId, "здесь должна быть инфа об обустройстве дома для собак с ограниченным передвижением");
                 telegramBot.execute(homeDogWithoutMovementMessage);
-                break;
-            case "advice":
+            }
+            case "advice" -> {
                 SendMessage adviceMessage = new SendMessage(chatId, "здесь должны быть советы кинолога");
                 telegramBot.execute(adviceMessage);
-                break;
-            case "cynologistList":
+            }
+            case "cynologistList" -> {
                 SendMessage cynologistListMessage = new SendMessage(chatId, "здесь должен быть список кинологов");
                 telegramBot.execute(cynologistListMessage);
-                break;
-            case "dogReasonRefusal":
+            }
+            case "dogReasonRefusal" -> {
                 SendMessage dogReasonRefusalMessage = new SendMessage(chatId, "здесь должны быть перечислены возможные причины отказа в усыновлении собаки");
                 telegramBot.execute(dogReasonRefusalMessage);
-                break;
-            case "catButton":
+            }
+            case "catButton" -> {
                 SendMessage catMessage = new SendMessage(chatId, "Выбери интересующий тебя раздел в доме дружбы для кошек:");
                 InlineKeyboardButton catInfo = new InlineKeyboardButton("Общая информация");
                 catInfo.callbackData("catInfo");
@@ -173,8 +173,8 @@ public class ButtonService {
                 Keyboard keyboardCat = new InlineKeyboardMarkup(catInfo).addRow(catConsult).addRow(catReport);
                 catMessage.replyMarkup(keyboardCat);
                 telegramBot.execute(catMessage);
-                break;
-            case "catInfo":
+            }
+            case "catInfo" -> {
                 SendMessage catInfoMessage = new SendMessage(chatId, "Здесь должна быть информация о приюте(его назначение и суть)");
                 InlineKeyboardButton catAddress = new InlineKeyboardButton("Часы работы, адрес, схема проезда");
                 catAddress.callbackData("catAddress");
@@ -183,8 +183,8 @@ public class ButtonService {
                 Keyboard keyboardCatRecommendations = new InlineKeyboardMarkup(catAddress).addRow(catRecommendations);
                 catInfoMessage.replyMarkup(keyboardCatRecommendations);
                 telegramBot.execute(catInfoMessage);
-                break;
-            case "catConsult":
+            }
+            case "catConsult" -> {
                 SendMessage catConsultMessage = new SendMessage(chatId, "Здесь должна быть информация о предоставляемых консультациях");
                 InlineKeyboardButton catIntroduction = new InlineKeyboardButton("Правила знакомства");
                 catIntroduction.callbackData("catIntroduction");
@@ -200,8 +200,8 @@ public class ButtonService {
                         .addRow(catTransportation).addRow(catHomeImprovement).addRow(catReasonRefusal);
                 catConsultMessage.replyMarkup(keyboardCatConsult);
                 telegramBot.execute(catConsultMessage);
-                break;
-            case "catAddress":
+            }
+            case "catAddress" -> {
                 SendMessage catAddressMessage = new SendMessage(chatId, """
                         тел: +7 ХХХ ХХХ ХХ ХХ\s
                         email: friendshipHouseCat@nemail.com\s
@@ -218,24 +218,24 @@ public class ButtonService {
                 } catch (IOException | URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
-                break;
-            case "catRecommendations":
+            }
+            case "catRecommendations" -> {
                 SendMessage catRecommendationsMessage = new SendMessage(chatId, "здесь должны быть рекомендации о технике безопасности  на территории дома для кошек");
                 telegramBot.execute(catRecommendationsMessage);
-                break;
-            case "catIntroduction":
+            }
+            case "catIntroduction" -> {
                 SendMessage catIntroductionMessage = new SendMessage(chatId, "здесь должны быть правила знакомства с кошками");
                 telegramBot.execute(catIntroductionMessage);
-                break;
-            case "catDocList":
+            }
+            case "catDocList" -> {
                 SendMessage catDocListMessage = new SendMessage(chatId, "здесь должен быть список документов необходимых для усыновления кошек");
                 telegramBot.execute(catDocListMessage);
-                break;
-            case "catTransportation":
+            }
+            case "catTransportation" -> {
                 SendMessage catTransportationMessage = new SendMessage(chatId, "здесь должна быть инфа о транспортировке кошек");
                 telegramBot.execute(catTransportationMessage);
-                break;
-            case "catHomeImprovement":
+            }
+            case "catHomeImprovement" -> {
                 SendMessage catHomeImprovementMessage = new SendMessage(chatId, "выберите категорию");
                 InlineKeyboardButton homeKitty = new InlineKeyboardButton("домик для котенка");
                 homeKitty.callbackData("homeKitty");
@@ -248,38 +248,38 @@ public class ButtonService {
                 Keyboard keyboardCatHomeImprovementMessage = new InlineKeyboardMarkup(homeKitty).addRow(homeCat).addRow(homeCatWithoutVision).addRow(homeCatWithoutMovement);
                 catHomeImprovementMessage.replyMarkup(keyboardCatHomeImprovementMessage);
                 telegramBot.execute(catHomeImprovementMessage);
-                break;
-            case "homeKitty":
+            }
+            case "homeKitty" -> {
                 SendMessage homeKittyMessage = new SendMessage(chatId, "здесь должна быть инфа об обустройстве дома для котят");
                 telegramBot.execute(homeKittyMessage);
-                break;
-            case "homeCat":
+            }
+            case "homeCat" -> {
                 SendMessage homeCatMessage = new SendMessage(chatId, "здесь должна быть инфа об обустройстве дома для взрослых кошек");
                 telegramBot.execute(homeCatMessage);
-                break;
-            case "homeCatWithoutVision":
+            }
+            case "homeCatWithoutVision" -> {
                 SendMessage homeCatWithoutVisionMessage = new SendMessage(chatId, "здесь должна быть инфа об обустройстве дома для кошек с ограниченным зрением");
                 telegramBot.execute(homeCatWithoutVisionMessage);
-                break;
-            case "homeCatWithoutMovement":
+            }
+            case "homeCatWithoutMovement" -> {
                 SendMessage homeCatWithoutMovementMessage = new SendMessage(chatId, "здесь должна быть инфа об обустройстве дома для кошек с ограниченным передвижением");
                 telegramBot.execute(homeCatWithoutMovementMessage);
-                break;
-            case "catReasonRefusal":
+            }
+            case "catReasonRefusal" -> {
                 SendMessage catReasonRefusalMessage = new SendMessage(chatId, "здесь должны быть перечислены возможные причины отказа в усыновлении кошки");
                 telegramBot.execute(catReasonRefusalMessage);
-                break;
-            case "callVolunteer":
+            }
+            case "callVolunteer" -> {
                 SendMessage callVolunteerMessage = new SendMessage(chatId, "Волонтер скоро с вами свяжется \uD83D\uDE09");
                 telegramBot.execute(callVolunteerMessage);
                 friendService.callVolunteer(chatId);
-                break;
-            case "CallMeBack":
+            }
+            case "callMeBack" -> {
                 SendMessage sendCallMeBackMessage = new SendMessage(chatId, """
                         Для звонка нам понадобится твой номер телефона.\s
                         Напиши его в формате 8ХХХХХХХХХХ""");
                 telegramBot.execute(sendCallMeBackMessage);
-                break;
+            }
         }
     }
 }

@@ -3,7 +3,6 @@ package sky.pro.friendshiphouse.controllerTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -12,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import sky.pro.friendshiphouse.constant.AnimalDogKind;
-import sky.pro.friendshiphouse.controller.AnimalDogController;
 import sky.pro.friendshiphouse.model.AnimalDog;
 import sky.pro.friendshiphouse.repository.AdopterRepository;
 import sky.pro.friendshiphouse.repository.AnimalDogRepository;
@@ -23,7 +21,6 @@ import sky.pro.friendshiphouse.service.VolunteerService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
