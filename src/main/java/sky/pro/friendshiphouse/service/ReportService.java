@@ -108,9 +108,10 @@ public class ReportService {
         if (reportStatus.equals(VERIFIED_ACCEPTED)) {
             SendMessage reportStatusOkMessage = new SendMessage(adopterChatId, "Отчет проверен, принят");
             telegramBot.execute(reportStatusOkMessage);
+        }else {
+            SendMessage reportStatusOkMessage = new SendMessage(adopterChatId, "Отчет проверен, требуются доработки");
+            telegramBot.execute(reportStatusOkMessage);
         }
-        SendMessage reportStatusOkMessage = new SendMessage(adopterChatId, "Отчет проверен, требуются доработки");
-        telegramBot.execute(reportStatusOkMessage);
         return reportRepository.save(changeReport);
     }
 

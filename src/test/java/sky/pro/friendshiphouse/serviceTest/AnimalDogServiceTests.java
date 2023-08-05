@@ -39,40 +39,30 @@ public class AnimalDogServiceTests {
     final String animalDogInfo = "Van";
     final AnimalDogKind animalDogKind = PUPPY;
     final boolean animalDogStatusFree = true;
+    List<AnimalDog> animalDogs = new ArrayList<>();
 
     @Test
     public void checkGetAllAnimalDog(){
-        animalDog.setAnimalDogId(animalDogId);
-        animalDog.setAnimalDogName(animalDogName);
-        animalDog.setAnimalDogAge(animalDogAge);
-        animalDog.setAnimalDogBreed(animalDogBreed);
-        animalDog.setAnimalDogInfo(animalDogInfo);
-        animalDog.setAnimalDogKind(animalDogKind);
-        animalDog.setAnimalDogStatusFree(animalDogStatusFree);
-
-        List<AnimalDog> standardAnimalDogs = new ArrayList<>();
-        standardAnimalDogs.add(animalDog);
-
-        when(animalDogRepository.findAll()).thenReturn(standardAnimalDogs);
-
+        animalDogs.add(animalDog);
+        when(animalDogRepository.findAll()).thenReturn(animalDogs);
         Collection<AnimalDog> checkedAnimalDogs = animalDogService.getAllAnimalDog();
+        assertEquals(checkedAnimalDogs, animalDogs);
+    }
 
-        assertEquals(checkedAnimalDogs, standardAnimalDogs);
+    @Test
+    public void checkGetAnimalDogByAnimalDogStatusFree() {
+        animalDog.setAnimalDogStatusFree(animalDogStatusFree);
+        animalDogs.add(animalDog);
+        when(animalDogRepository.getAnimalDogByAnimalDogStatusFree(animalDogStatusFree)).thenReturn(animalDogs);
+        Collection<AnimalDog> checkedAnimalDogs = animalDogService.getAnimalDogByAnimalDogStatusFree(animalDogStatusFree);
+        assertEquals(checkedAnimalDogs,animalDogs);
     }
 
     @Test
     public void checkGetAnimalDogById(){
         animalDog.setAnimalDogId(animalDogId);
-        animalDog.setAnimalDogName(animalDogName);
-        animalDog.setAnimalDogAge(animalDogAge);
-        animalDog.setAnimalDogBreed(animalDogBreed);
-        animalDog.setAnimalDogInfo(animalDogInfo);
-        animalDog.setAnimalDogKind(animalDogKind);
-        animalDog.setAnimalDogStatusFree(animalDogStatusFree);
-
         when(animalDogRepository.findByAnimalDogId(animalDogId)).thenReturn(animalDog);
         AnimalDog checkedAnimalDog = animalDogService.getAnimalDogById(animalDogId);
-
         assertEquals(checkedAnimalDog, animalDog);
     }
 
@@ -93,7 +83,6 @@ public class AnimalDogServiceTests {
 
         when(animalDogRepository.save(animalDog)).thenReturn(animalDog);
         AnimalDog checkedAnimalDog = animalDogService.createAnimalDog(animalDog);
-
         assertEquals(checkedAnimalDog, animalDog);
     }
 
@@ -106,8 +95,6 @@ public class AnimalDogServiceTests {
         animalDog.setAnimalDogInfo(animalDogInfo);
         animalDog.setAnimalDogKind(animalDogKind);
         animalDog.setAnimalDogStatusFree(animalDogStatusFree);
-
-        List<AnimalDog> animalDogs = new ArrayList<>();
         animalDogs.add(animalDog);
 
         when(animalDogRepository.findAll()).thenReturn(animalDogs);
@@ -127,7 +114,6 @@ public class AnimalDogServiceTests {
         when(animalDogRepository.findByAnimalDogId(animalDogId)).thenReturn(animalDog);
         when(animalDogRepository.save(animalDog)).thenReturn(animalDog);
         AnimalDog checkedAnimalDog = animalDogService.editAnimalDog(animalDog);
-
         assertEquals(checkedAnimalDog, animalDog);
     }
 
@@ -140,17 +126,10 @@ public class AnimalDogServiceTests {
     @Test
     public void checkEditAnimalDogStatus(){
         animalDog.setAnimalDogId(animalDogId);
-        animalDog.setAnimalDogName(animalDogName);
-        animalDog.setAnimalDogAge(animalDogAge);
-        animalDog.setAnimalDogBreed(animalDogBreed);
-        animalDog.setAnimalDogInfo(animalDogInfo);
-        animalDog.setAnimalDogKind(animalDogKind);
         animalDog.setAnimalDogStatusFree(animalDogStatusFree);
-
         when(animalDogRepository.findByAnimalDogId(animalDogId)).thenReturn(animalDog);
         when(animalDogRepository.save(animalDog)).thenReturn(animalDog);
         AnimalDog checkedAnimalDog = animalDogService.editAnimalDogStatus(animalDog.getAnimalDogId(), false);
-
         assertEquals(checkedAnimalDog, animalDog);
     }
 

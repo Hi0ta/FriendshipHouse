@@ -30,39 +30,24 @@ public class VolunteerServiceTests {
     private VolunteerService volunteerService;
 
     private Volunteer volunteer = new Volunteer();
-
-    final Long volunteerId = 1L;
-    final Long volunteerChatId = 1234567890L;
-    final String volunteerName = "Van";
-    final boolean volunteerStatusFree = true;
-
+    private final Long volunteerId = 1L;
+    private final Long volunteerChatId = 1234567890L;
+    private final String volunteerName = "Van";
+    private final boolean volunteerStatusFree = true;
+    private   List<Volunteer> volunteers = new ArrayList<>();
     @Test
     public void checkGetAllVolunteer() {
-        volunteer.setVolunteerId(volunteerId);
-        volunteer.setVolunteerChatId(volunteerChatId);
-        volunteer.setVolunteerName(volunteerName);
-        volunteer.setVolunteerStatusFree(volunteerStatusFree);
-
-        List<Volunteer> standardVolunteers = new ArrayList<>();
-        standardVolunteers.add(volunteer);
-
-        when(volunteerRepository.findAll()).thenReturn(standardVolunteers);
-
+        volunteers.add(volunteer);
+        when(volunteerRepository.findAll()).thenReturn(volunteers);
         Collection<Volunteer> checkedVolunteers = volunteerService.getAllVolunteer();
-
-        assertEquals(checkedVolunteers, standardVolunteers);
+        assertEquals(checkedVolunteers, volunteers);
     }
 
     @Test
     public void checkGetVolunteerById() {
         volunteer.setVolunteerId(volunteerId);
-        volunteer.setVolunteerChatId(volunteerChatId);
-        volunteer.setVolunteerName(volunteerName);
-        volunteer.setVolunteerStatusFree(volunteerStatusFree);
-
         when(volunteerRepository.findByVolunteerId(volunteerId)).thenReturn(volunteer);
         Volunteer checkedVolunteer = volunteerService.getVolunteerById(volunteerId);
-
         assertEquals(checkedVolunteer, volunteer);
     }
 
@@ -135,14 +120,10 @@ public class VolunteerServiceTests {
     @Test
     public void checkEditVolunteerStatus() {
         volunteer.setVolunteerId(volunteerId);
-        volunteer.setVolunteerChatId(volunteerChatId);
-        volunteer.setVolunteerName(volunteerName);
         volunteer.setVolunteerStatusFree(volunteerStatusFree);
-
         when(volunteerRepository.findByVolunteerId(volunteerId)).thenReturn(volunteer);
         when(volunteerRepository.save(volunteer)).thenReturn(volunteer);
         Volunteer checkedVolunteer = volunteerService.editVolunteerStatus(volunteer.getVolunteerId(), false);
-
         assertEquals(checkedVolunteer, volunteer);
     }
 
@@ -165,5 +146,22 @@ public class VolunteerServiceTests {
     public void checkExceptionWhenDeleteVolunteer() {
         when(volunteerRepository.findByVolunteerId(volunteerId)).thenReturn(null);
         assertThrows(ObjectAbsenceException.class, () -> volunteerService.deleteVolunteer(volunteerId));
+    }
+    @Test
+    public void checkCallVolunteerStatusFreeIsTrue() {
+        volunteers.add(volunteer);
+        when(volunteerRepository.getVolunteerByVolunteerStatusFreeIsTrue()).thenReturn(volunteers);
+        Volunteer checkedVolunteer = volunteerService.callVolunteer();
+        assertEquals(checkedVolunteer, volunteer);
+    }
+
+    @Test
+    public void checkCallVolunteerStatusFreeIsFalse() {
+        List<Volunteer> trueVolunteers = new ArrayList<>();
+        volunteers.add(volunteer);
+        when(volunteerRepository.getVolunteerByVolunteerStatusFreeIsTrue()).thenReturn(trueVolunteers);
+        when(volunteerRepository.getVolunteerByVolunteerStatusFreeIsFalse()).thenReturn(volunteers);
+        Volunteer checkedVolunteer = volunteerService.callVolunteer();
+        assertEquals(checkedVolunteer, volunteer);
     }
 }
